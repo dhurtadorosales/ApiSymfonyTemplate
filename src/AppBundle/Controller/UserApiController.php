@@ -2,27 +2,28 @@
 
 namespace AppBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
  * Class UserController
- * @Route("/")
+ * @Route("/api")
  * @package AppBundle\Controller
  */
-class UserController extends Controller
+class UserApiController extends Controller
 {
     /**
-     * @Route("/users/all", name="users_all")
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/users/all", name="api_users_all")
+     * @return array
      */
-    public function getUsersAction()
+    public function getUsersApiAction()
     {
         $userManager = $this->get('user_manager');
         $users = $userManager->getUsers();
 
-        return $this->render('@AppBundle/Resources/views/users.html.twig', [
+        return [
             'users' => $users
-        ]);
+        ];
     }
 }
