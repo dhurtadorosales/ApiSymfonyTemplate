@@ -2,8 +2,12 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\User;
+use AppBundle\Form\Type\UserType;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class UserController
@@ -24,5 +28,75 @@ class UserController extends Controller
         return $this->render('@AppBundle/Resources/views/users.html.twig', [
             'users' => $users
         ]);
+    }
+
+    /**
+     * @Route("/user/new", name="user_new")
+     * @Route("/user/edit/{id}", name="user_edit")
+     * @param Request $request
+     * @param User $user
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function formUserAction(Request $request, User $user = null)
+    {
+        /** @var EntityManager $em */
+        $em =$this->getDoctrine()->getManager();
+
+        if (null == $user) {
+            $user = new User();
+            $em->persist($user);
+        }
+
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $em->flush();
+                $this->addFlash(
+                    'success',
+                    'Success'
+                );
+                return $this->redirectToRoute('homepage');
+            }
+            catch (\Exception $e) {
+                $this->addFlash(
+                    'error',
+                    'Error'
+                );
+            }
+        }
+
+        return $this->render('@AppBundle/Resources/views/form.html.twig', [
+            'user' => $user,
+            'form' => $form->createView()
+            ]
+        );
+    }
+
+    /**
+     * @Route("/user/delete/{id}", name="user_delete")
+     * @param User $user
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteUserAction(User $user)
+    {
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+
+        try {
+            $em->remove($user);
+            $em->flush();
+            $this->addFlash(
+                'success',
+                'User deleted'
+            );
+        } catch (\Exception $e) {
+            $this->addFlash(
+                'error',
+                'Error'
+            );
+        }
+        return $this->redirectToRoute('homepage');
     }
 }
