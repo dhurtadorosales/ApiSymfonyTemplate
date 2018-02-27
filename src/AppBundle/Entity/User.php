@@ -44,9 +44,9 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="address", type="text")
+     * @ORM\Column(name="city", type="text")
      */
-    private $address;
+    private $city;
 
     /**
      * Get id
@@ -131,27 +131,27 @@ class User
     }
 
     /**
-     * Set address
+     * Set city
      *
-     * @param string $address
+     * @param string $city
      *
      * @return User
      */
-    public function setAddress($address)
+    public function setCity($city)
     {
-        $this->address = $address;
+        $this->city = $city;
 
         return $this;
     }
 
     /**
-     * Get address
+     * Get city
      *
      * @return string
      */
-    public function getAddress()
+    public function getCity()
     {
-        return $this->address;
+        return $this->city;
     }
 
     /**
@@ -159,7 +159,7 @@ class User
      */
     public function __toString()
     {
-        return $this->getName();
+        return $this->getName() . ' ' . $this->getLastName();
     }
 }
 
