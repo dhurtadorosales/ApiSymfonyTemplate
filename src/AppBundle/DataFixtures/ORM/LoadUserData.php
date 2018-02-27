@@ -30,9 +30,9 @@ class LoadUserData extends Fixture
     public function load(ObjectManager $manager)
     {
         $data = [
-            'clark@kent.com', 'Clark', 'Kent', 'Metrópolis',
-            'bruce@wayne.com', 'Bruce', 'Wayne', 'Gotham',
-            'diana@prince.com', 'Diana', 'Prince', 'Themyscira'
+            ['clark@kent.com', 'Clark', 'Kent', 'Metrópolis'],
+            ['bruce@wayne.com', 'Bruce', 'Wayne', 'Gotham'],
+            ['diana@prince.com', 'Diana', 'Prince', 'Themyscira']
         ];
 
         $users = [];
