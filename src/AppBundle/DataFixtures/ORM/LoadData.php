@@ -7,6 +7,7 @@ use AppBundle\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class LoadData extends Fixture
 {
@@ -14,6 +15,16 @@ class LoadData extends Fixture
      * @var ContainerInterface
      */
     public $container;
+    private $encoder;
+
+    /**
+     * LoadData constructor.
+     * @param UserPasswordEncoderInterface $encoder
+     */
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
 
     /**
      * Sets the container.
@@ -40,9 +51,11 @@ class LoadData extends Fixture
 
         foreach ($usersData as $item) {
             $user = new User();
+            $password = $this->encoder->encodePassword($user, $item[1]);
+
             $user
                 ->setEmail($item[0])
-                ->setPass($item[1])
+                ->setPass($password)
                 ->setName($item[2])
                 ->setLastName($item[3])
                 ->setAdmin($item[4])

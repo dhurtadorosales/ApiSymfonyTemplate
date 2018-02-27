@@ -1,4 +1,4 @@
-{% extends '::layout.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block content %}
     <h1>
@@ -8,7 +8,7 @@
             New user
         {% endif %}
     </h1>
-
+    {% include 'common/flash.html.twig' %}
     {{ form_start(form) }}
     {{ form_widget(form) }}
 

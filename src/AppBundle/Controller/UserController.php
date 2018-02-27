@@ -52,6 +52,10 @@ class UserController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                $pass = $this->get('security.password_encoder')
+                    ->encodePassword($user, $user->getEmail());
+                $user->setPass($pass);
+                
                 $em->flush();
                 $this->addFlash(
                     'success',
@@ -67,7 +71,7 @@ class UserController extends Controller
             }
         }
 
-        return $this->render('@AppBundle/Resources/views/form.html.twig', [
+        return $this->render('user/form.html.twig', [
             'user' => $user,
             'form' => $form->createView()
             ]
@@ -118,7 +122,7 @@ class UserController extends Controller
      * @Route("/check", name="check")
      * @Route("/logout", name="logout")
      */
-    public function comprobarAction()
+    public function checkAction()
     {
 
     }
