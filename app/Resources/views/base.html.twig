@@ -3,14 +3,34 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('font-awesome/css/font-awesome.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('app.css') }}">
-        {% block stylesheets %}{% endblock %}
+
+        {% block stylesheets %}
+            {% stylesheets
+                'assets/bootstrap/css/bootstrap.min.css'
+                'assets/font-awesome/css/font-awesome.min.css'
+                'assets/jquery/select2.min.css'
+                'css/main.css'
+
+                filter='cssrewrite, ?minifycsscompressor' output='css/compiled/all.css' %}
+            <link rel="stylesheet" href="{{ asset_url }}" type="text/css" media="all">
+            {% endstylesheets %}
+        {% endblock %}
+
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}
+            {% javascripts
+                'assets/jquery/jquery-1.12.4.min.js'
+                'assets/bootstrap/js/bootstrap.min.js'
+                'assets/jquery/select2.full.min.js'
+                'js/main.js'
+
+                filter="?jsqueeze" output='js/compiled/all.js' %}
+                <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock %}
+
     </body>
 </html>

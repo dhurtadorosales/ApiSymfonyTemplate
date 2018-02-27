@@ -1,7 +1,7 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
-{% block body %}
-    <div>
+{% block content %}
+    {#<div class="container">
         <ul>
             <li>
                 <a href="{{ path('users_all') }}" class="btn btn-primary">Get Users</a>
@@ -12,6 +12,11 @@
         </ul>
         <input type="text" placeholder="search">
         <a href="" class="btn btn-primary">Search</a>
-    </div>
+    </div>#}
+    <section>
+        <div class="container">
+            <h1>Welcome to this Application</h1>
+        </div>
+    </section>
 {% endblock %}
 

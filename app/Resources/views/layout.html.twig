@@ -1,34 +1,18 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {% block navbar %}
-        <nav class="navbar navbar-default navbar-fixed-top">
-
-        </nav>
+    {% block header %}
+        {% include 'common/nav.html.twig' %}
     {% endblock %}
-    <div class="container">
-        {% if app.session.flashBag.has('success') %}
-            {% set messages = app.session.flashBag.get('success') %}
-            {% for message in messages %}
-                <div class="alert alert-success alert-dismissable">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-        {% if app.session.flashBag.has('error') %}
-            {% set mensajes = app.session.flashBag.get('error') %}
-            {% for message in messages %}
-                <div class="alert alert-danger alert-dismissable">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-        {% block content %}{% endblock %}
-    </div>
+
+    {% block flash %}
+        {% include 'common/flash.html.twig' %}
+    {% endblock %}
+
+    {% block content %}{% endblock %}
+
+    {% block footer %}
+        {% include 'common/footer.html.twig' %}
+    {% endblock %}
+
 {% endblock %}

@@ -1,0 +1,21 @@
+section {
+    margin-top: 0;
+}
+
+footer {
+    width: 100%;
+    bottom: 0;
+    position: absolute;
+    height: 90px;
+    background-color: #7E91A9;
+    color: white;
+    border-radius: 0;
+}
+
+footer a {
+    color: white;
+}
+
+footer .container {
+    padding-top: 20px;
+}

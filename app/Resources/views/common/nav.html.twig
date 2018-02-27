@@ -1,0 +1,27 @@
+{% set route = app.request.get('_route') %}
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Desplegar barra de navegación</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ path('homepage') }}">Example</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{{ path('homepage') }}"><i class="fa fa-home"></i> Home</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {#% if app.user %}
+                    <li><a href="{{ path('perfil') }}"><i class="fa fa-user"></i>Mi Perfil</a></li>
+                    <li><a href="{{ path('salir') }}">{{ app.user.dni }}  -  Salir</a></li>
+                {% else %#}
+                    <li><a href="{{ path('homepage') }}">Access</a></li>
+                {#% endif %#}
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
