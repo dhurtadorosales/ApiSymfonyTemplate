@@ -17,6 +17,9 @@
         <input type="text" placeholder="search">
         <a href="" class="btn btn-primary">Search</a>
     </div>#}
+    {% for language in site_locales|length %}
+        <h1>hola</h1>
+    {% endfor %}
     <section>
         <div class="container">
             <h1>{{ 'home.welcome'|trans }} {{ site_name }}</h1>

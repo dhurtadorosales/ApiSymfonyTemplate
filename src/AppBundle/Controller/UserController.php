@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class UserController
- * @Route("/")
+ * @Route("/{_locale}", requirements={"_locale"="%app.locales%"})
  * @package AppBundle\Controller
  */
 class UserController extends Controller
