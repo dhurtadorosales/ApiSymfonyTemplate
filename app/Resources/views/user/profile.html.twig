@@ -1,0 +1,32 @@
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% extends 'layout.html.twig' %}
+
+{% trans_default_domain 'form' %}
+
+{% block title %}{{ 'form.profile'|trans }}{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="well">
+            <h2>{{ app.user }}</h2>
+        </div>
+    </div>
+
+    <div class="container">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <div class="form-group">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+                <button type="submit" name="send" class="btn btn-success btn">
+                    <i class="fa fa-check"></i> {{ 'form.submit'|trans }}
+                </button>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

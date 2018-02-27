@@ -1,5 +1,3 @@
-{% set route = app.request.get('_route') %}
-
 {% trans_default_domain 'layout' %}
 
 <nav class="navbar navbar-default">
@@ -18,12 +16,12 @@
                 <li><a href="{{ path('homepage') }}"><i class="fa fa-home"></i> {{ 'layout.page.home'|trans }}</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                {#% if app.user %}
-                    <li><a href="{{ path('perfil') }}"><i class="fa fa-user"></i>Mi Perfil</a></li>
-                    <li><a href="{{ path('salir') }}">{{ app.user.dni }}  -  Salir</a></li>
-                {% else %#}
+                {% if app.user %}
+                    <li><a href="{{ path('profile') }}"><i class="fa fa-user"></i> {{ 'layout.profile'|trans }}</a></li>
+                    <li><a href="{{ path('logout') }}">{{ app.user }} <i class="fa fa-sign-out"></i></a></li>
+                {% else %}
                     <li><a href="{{ path('login') }}">{{ 'layout.page.access'|trans }}</a></li>
-                {#% endif %#}
+                {% endif %}
             </ul>
         </div><!--/.nav-collapse -->
     </div>

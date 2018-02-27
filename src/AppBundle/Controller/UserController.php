@@ -3,11 +3,13 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
+use AppBundle\Form\Type\ProfileType;
 use AppBundle\Form\Type\UserType;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class UserController
@@ -25,7 +27,7 @@ class UserController extends Controller
         $userManager = $this->get('user_manager');
         $users = $userManager->getUsers();
 
-        return $this->render('@AppBundle/Resources/views/users.html.twig', [
+        return $this->render('user/users.html.twig', [
             'users' => $users
         ]);
     }
@@ -52,8 +54,9 @@ class UserController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $pass = $this->get('security.password_encoder')
-                    ->encodePassword($user, $user->getEmail());
+                $encoder = $this->container->get(UserPasswordEncoderInterface::class);
+
+                $pass = $encoder->encodePassword($user, $form['password']->getData());
                 $user->setPass($pass);
                 
                 $em->flush();
@@ -125,5 +128,35 @@ class UserController extends Controller
     public function checkAction()
     {
 
+    }
+
+    /**
+     * @Route("/profile", name="profile")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function profileAction(Request $request) {
+        $user = $this->getUser();
+
+        $form = $this->createForm(ProfileType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isValid() && $form->isSubmitted()) {
+            $passForm = $form->get('new')->get('first')->getData();
+
+            if ($passForm) {
+                $encoder = $this->container->get(UserPasswordEncoderInterface::class);
+
+                $pass = $encoder->encodePassword($user, $form['password']->getData());
+                ******
+                $user->setPass($pass);
+
+                $user->setClave($pass);
+            }
+            $this->getDoctrine()->getManager()->flush();
+        }
+        return $this->render('user/profile.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }

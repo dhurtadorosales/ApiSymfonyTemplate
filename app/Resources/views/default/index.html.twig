@@ -18,9 +18,13 @@
         <a href="" class="btn btn-primary">Search</a>
     </div>#}
 
+    {% include 'common/flash.html.twig' %}
+
     <section>
         <div class="container">
-            <h1>{{ 'home.welcome'|trans }} {{ site_name }}</h1>
+            <div class="well">
+                <h2>{{ 'home.welcome'|trans }} {{ site_name }}</h2>
+            </div>
         </div>
     </section>
 {% endblock %}

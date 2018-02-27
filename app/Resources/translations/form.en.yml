@@ -1,0 +1,6 @@
+form.submit: Save
+form.cancel: Cancel
+form.profile: Profile
+form.profile.old.password: Password
+form.profile.new.password: New password
+form.profile.repeat.password: Repeat new password
