@@ -42,11 +42,19 @@ class User
     private $lastName;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="city", type="text")
+     * @var Alias[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Alias", mappedBy="user")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $city;
+    private $alias;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->alias = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -131,35 +139,44 @@ class User
     }
 
     /**
-     * Set city
-     *
-     * @param string $city
-     *
-     * @return User
-     */
-    public function setCity($city)
-    {
-        $this->city = $city;
-
-        return $this;
-    }
-
-    /**
-     * Get city
-     *
-     * @return string
-     */
-    public function getCity()
-    {
-        return $this->city;
-    }
-
-    /**
      * @return string
      */
     public function __toString()
     {
         return $this->getName() . ' ' . $this->getLastName();
     }
-}
 
+    /**
+     * Add alias
+     *
+     * @param \AppBundle\Entity\Alias $alias
+     *
+     * @return User
+     */
+    public function addAlias(\AppBundle\Entity\Alias $alias)
+    {
+        $this->alias[] = $alias;
+
+        return $this;
+    }
+
+    /**
+     * Remove alias
+     *
+     * @param \AppBundle\Entity\Alias $alias
+     */
+    public function removeAlias(\AppBundle\Entity\Alias $alias)
+    {
+        $this->alias->removeElement($alias);
+    }
+
+    /**
+     * Get alias
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAlias()
+    {
+        return $this->alias;
+    }
+}

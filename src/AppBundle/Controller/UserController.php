@@ -99,4 +99,14 @@ class UserController extends Controller
         }
         return $this->redirectToRoute('homepage');
     }
+
+    public function loginAction()
+    {
+        $helper = $this->get('security.authentication_utils');
+
+        return $this->render('usuario/login.html.twig', [
+            'last_user' => $helper->getLastUsername(),
+            'error' => $helper->getLastAuthenticationError()
+        ]);
+    }
 }
