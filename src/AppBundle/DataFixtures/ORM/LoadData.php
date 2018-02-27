@@ -31,9 +31,9 @@ class LoadData extends Fixture
     public function load(ObjectManager $manager)
     {
         $usersData = [
-            ['clark@kent.com', 'Clark', 'Kent'],
-            ['bruce@wayne.com', 'Bruce', 'Wayne'],
-            ['diana@prince.com', 'Diana', 'Prince']
+            ['clark@kent.com', 'clark', 'Clark', 'Kent', true, true],
+            ['bruce@wayne.com', 'bruce', 'Bruce', 'Wayne', false, true],
+            ['diana@prince.com', 'diana', 'Diana', 'Prince', false, true]
         ];
 
         $users = [];
@@ -42,8 +42,11 @@ class LoadData extends Fixture
             $user = new User();
             $user
                 ->setEmail($item[0])
-                ->setName($item[1])
-                ->setLastName($item[2]);
+                ->setPass($item[1])
+                ->setName($item[2])
+                ->setLastName($item[3])
+                ->setAdmin($item[4])
+                ->setActive($item[5]);
 
             $manager->persist($user);
             array_push($users, $user);

@@ -1,0 +1,7 @@
+login.title: Accede
+login.user.label: Email
+login.user.placeholder: Email
+login.pass.label: Contraseña
+login.pass.placeholder: Contraseña
+login.submit: Accede
+login.cancel: Cancelar

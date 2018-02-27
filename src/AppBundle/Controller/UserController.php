@@ -100,13 +100,26 @@ class UserController extends Controller
         return $this->redirectToRoute('homepage');
     }
 
+    /**
+     * @Route("/login", name="login")
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function loginAction()
     {
         $helper = $this->get('security.authentication_utils');
 
-        return $this->render('usuario/login.html.twig', [
+        return $this->render('user/login.html.twig', [
             'last_user' => $helper->getLastUsername(),
             'error' => $helper->getLastAuthenticationError()
         ]);
+    }
+
+    /**
+     * @Route("/check", name="check")
+     * @Route("/logout", name="logout")
+     */
+    public function comprobarAction()
+    {
+
     }
 }

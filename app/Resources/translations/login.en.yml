@@ -1,0 +1,7 @@
+login.title: Sign In
+login.user.label: Email
+login.user.placeholder: Email
+login.pass.label: Password
+login.pass.placeholder: Password
+login.submit: Sign In
+login.cancel: Cancel

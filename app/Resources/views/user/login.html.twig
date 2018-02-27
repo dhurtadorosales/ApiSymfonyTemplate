@@ -1,0 +1,42 @@
+{% extends 'layout.html.twig' %}
+
+{% trans_default_domain 'login' %}
+
+{% block title %}{{ 'login.title'|trans }}{% endblock %}
+
+{% block content %}
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+    {% endif %}
+    <form method="post" action="{{ path('check') }}">
+        <header><h3>{{ 'login.title'|trans }}</h3></header>
+        <label for="_username">{{ 'login.user.label'|trans }} </label>
+        <input type="email"
+               name="_username"
+               required="required"
+               placeholder="{{ 'login.user.placeholder'|trans  }}"
+               value="{{ last_user }}"
+                {% if not last_user %}
+                    autofocus="autofocus"
+                {% endif %}>
+
+        <label for="_password">{{ 'login.pass.label'|trans }} </label>
+        <input type="password"
+               name="_password"
+               required="required"
+               placeholder="{{ 'login.pass.placeholder'|trans  }}"
+                {% if not last_user %}
+                    autofocus="autofocus"
+                {% endif %}>
+
+        <button type="submit">
+            <i class="fa fa-sign-in"></i> {{ 'login.submit'|trans }}
+        </button>
+
+        <a href="{{ path('homepage') }}" class="btn btn-default">
+            <i class="fa fa-times"></i> {{ 'login.cancel'|trans }}
+        </a>
+    </form>
+{% endblock %}
