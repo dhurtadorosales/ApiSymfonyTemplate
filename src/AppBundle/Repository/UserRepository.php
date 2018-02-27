@@ -11,13 +11,5 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserRepository extends EntityRepository
 {
-    public function getUsers()
-    {
-        $query = $this->getEntityManager()
-            ->getRepository('AppBundle:User')
-            ->findAll();
-
-        return $query;
-    }
 
 }
