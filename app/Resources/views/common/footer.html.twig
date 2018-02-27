@@ -1,10 +1,13 @@
 {% block footer %}
+
+    {% trans_default_domain 'layout' %}
+
     <footer>
         <div class="container">
             <ul class="nav navbar-nav navbar-left">
                 <li>
-                    <div>Example</div>
-                    <div>{{ 'layout.author'|trans }}: Diego Hurtado Rosales</div>
+                    <div>{{ site_name }}</div>
+                    <div>{{ 'layout.author'|trans }}: {{ site_author }}</div>
                 </li>
             </ul>
             <ul class="nav navbar navbar-right">
@@ -14,4 +17,5 @@
             </ul>
         </div>
     </footer>
+
 {% endblock %}

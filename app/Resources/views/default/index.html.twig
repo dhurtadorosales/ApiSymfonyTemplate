@@ -1,5 +1,9 @@
 {% extends 'layout.html.twig' %}
 
+{% trans_default_domain 'home' %}
+
+{% block title %}{{ 'home.title'|trans }}{% endblock %}
+
 {% block content %}
     {#<div class="container">
         <ul>
@@ -15,7 +19,7 @@
     </div>#}
     <section>
         <div class="container">
-            <h1>Welcome to this Application</h1>
+            <h1>{{ 'home.welcome'|trans }} {{ site_name }}</h1>
         </div>
     </section>
 {% endblock %}
