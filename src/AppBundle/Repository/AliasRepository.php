@@ -13,6 +13,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class AliasRepository extends EntityRepository
 {
+    /**
+     * @param User $user
+     * @return array
+     */
     public function getAliasByUser(User $user)
     {
         /** @var EntityManager $em */

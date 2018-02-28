@@ -2,3 +2,5 @@ user.title: Users
 user.name: Name
 user.last_name: Last Name
 user.email: Email
+user.remove: You are going to remove
+user.remove.question: Are you sure?

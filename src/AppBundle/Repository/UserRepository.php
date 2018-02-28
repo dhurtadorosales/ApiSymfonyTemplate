@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 /**
  * UserRepository
@@ -11,5 +12,19 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserRepository extends EntityRepository
 {
+    public function getActiveUsers()
+    {
+        /** @var EntityManager $em */
+        $em = $this->getEntityManager();
 
+        $query = $em->createQueryBuilder()
+            ->select('u')
+            ->from('AppBundle:User', 'u')
+            ->where('u.active = :active')
+            ->setParameter('active', true)
+            ->getQuery()
+            ->getResult();
+
+        return $query;
+    }
 }

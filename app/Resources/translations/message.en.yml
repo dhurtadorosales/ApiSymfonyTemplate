@@ -1,2 +1,3 @@
 message.success: Changes has been saved successfully
 message.error: Error to save changes
+message.admin.error: Yoy can't remove Admin

@@ -24,6 +24,6 @@ class UserManager
     public function getUsers()
     {
         return $this->em->getRepository('AppBundle:User')
-            ->findAll();
+            ->getActiveUsers();
     }
 }

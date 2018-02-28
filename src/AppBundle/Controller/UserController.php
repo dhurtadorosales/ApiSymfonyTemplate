@@ -95,19 +95,27 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         try {
-            $em->remove($user);
-            $em->flush();
-            $this->addFlash(
-                'success',
-                'User deleted'
-            );
+            if (!$user->isAdmin()) {
+                $user
+                    ->setActive(false);
+                $em->flush();
+                $this->addFlash(
+                    'success',
+                    'message.success'
+                );
+            } else {
+                $this->addFlash(
+                    'error',
+                    'message.admin.error'
+                );
+            }
         } catch (\Exception $e) {
             $this->addFlash(
                 'error',
-                'Error'
+                'message.error'
             );
         }
-        return $this->redirectToRoute('homepage');
+        return $this->redirectToRoute('users_all');
     }
 
     /**

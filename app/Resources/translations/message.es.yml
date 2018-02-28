@@ -1,2 +1,3 @@
 message.success: Cambios guardados con éxito
 message.error: Error al guardar los cambios
+message.admin.error: No se puede eliminar al administrador

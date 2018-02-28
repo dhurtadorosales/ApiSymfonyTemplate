@@ -23,7 +23,7 @@
     </div>
 
     <div class="container">
-        <table class="table table-responsive">
+        <table class="table table-responsive table-hover">
             <thead>
             <tr>
                 <th>{{ 'alias.name'|trans }}</th>
@@ -45,6 +45,7 @@
                             <a href="{{ path('alias_edit', {'user_id' : app.user.id, 'alias_id': item.id }) }}" class="btn btn-default">
                                 <i class="fa fa-pencil"></i>
                             </a>
+
                             <a type="button" class="btn btn-default" data-toggle="modal" data-target="#{{ item.id }}">
                                 <i class="fa fa-trash"></i>
                             </a>
@@ -67,7 +68,7 @@
                             </div>
                             <div class="modal-footer">
                                 <form action="{{ path('alias_delete', {'user_id' : app.user.id, 'alias_id': item.id } ) }}" method="post" name="confirm">
-                                    <button type="submit" name="aceptar" class="btn btn-default">
+                                    <button type="submit" name="save" class="btn btn-default">
                                         <i class="fa fa-check"></i> {{ 'form.submit'|trans({}, 'form') }}
                                     </button>
                                     <button type="button" name="cancel" class="btn btn-cancel" data-dismiss="modal">

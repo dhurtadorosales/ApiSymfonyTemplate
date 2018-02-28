@@ -12,12 +12,13 @@
     </div>
 
     <div class="container">
-        <table class="table table-responsive">
+        <table class="table table-responsive table-hover">
             <thead>
             <tr>
                 <th>{{ 'user.name'|trans }}</th>
                 <th>{{ 'user.last_name'|trans }}</th>
                 <th>{{ 'user.email'|trans }}</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -26,7 +27,42 @@
                     <td>{{ user.name }}</td>
                     <td>{{ user.lastName }}</td>
                     <td>{{ user.email }}</td>
+                    <td>
+                        <a type="button" class="btn btn-default" data-toggle="modal" data-target="#{{ user.id }}">
+                            <i class="fa fa-trash"></i>
+                        </a>
+
+                        <a href="{#{ restablecer contraseña }#}" class="btn btn-default">
+                            <i class="fa fa-key"></i>
+                        </a>
+                    </td>
                 </tr>
+
+                <!-- Modal window -->
+                <div class="modal fade" id="{{ user.id }}" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">{{ 'user.remove'|trans }} {{ user }}</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>{{ 'user.remove.question'|trans }}</p>
+                            </div>
+                            <div class="modal-footer">
+                                <form action="{{ path('user_delete', {'id' : user.id } ) }}" method="post" name="confirm">
+                                    <button type="submit" name="save" class="btn btn-default">
+                                        <i class="fa fa-check"></i> {{ 'form.submit'|trans({}, 'form') }}
+                                    </button>
+                                    <button type="button" name="cancel" class="btn btn-cancel" data-dismiss="modal">
+                                        <i class="fa fa-times"></i> {{ 'form.cancel'|trans({}, 'form') }}
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             {% endfor %}
             </tbody>
 
