@@ -6,6 +6,7 @@ use AppBundle\Entity\User;
 use AppBundle\Form\Type\ProfileType;
 use AppBundle\Form\Type\UserType;
 use Doctrine\ORM\EntityManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -142,12 +143,35 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/profile", name="profile")
-     * @Security("is_granted('ROLE_USER')")
-     * @param Request $request
+     * @Route("/{id}/profile", name="profile")
+     *
+     * @Security("is_granted('ROLE_USER') and user.getId() == id")
+     *
+     * @ParamConverter("user", class="AppBundle:User", options={"id" = "id"})
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function profileAction(Request $request) {
+    public function profileViewAction()
+    {
+        $user = $this->getUser();
+
+        return $this->render('user/profile.html.twig', [
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/change-password", name="change_password")
+     *
+     * @Security("is_granted('ROLE_USER') and user.getId() == id")
+     *
+     * @ParamConverter("user", class="AppBundle:User", options={"id" = "id"})
+     *
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function changePasswordAction(Request $request) {
         $user = $this->getUser();
 
         $form = $this->createForm(ProfileType::class, $user);
@@ -167,7 +191,8 @@ class UserController extends Controller
             }
             $this->getDoctrine()->getManager()->flush();
         }
-        return $this->render('user/profile.html.twig', [
+
+        return $this->render('user/change_pass.html.twig', [
             'form' => $form->createView()
         ]);
     }

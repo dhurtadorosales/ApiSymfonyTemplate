@@ -2,8 +2,10 @@ layout.author: Author
 layout.up: Go Up
 layout.page.home: Home
 layout.page.access: Access
+layout.page.logout: Logout
 layout.page.register: Register
 layout.profile: My profile
+layout.change_password: Change password
 layout.page.alias_new: New alias
 layout.page.alias_my: My alias
 layout.page.alias_all: Alias
