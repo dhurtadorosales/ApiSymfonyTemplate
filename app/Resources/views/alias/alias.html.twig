@@ -28,9 +28,10 @@
             <tr>
                 <th>{{ 'alias.name'|trans }}</th>
                 <th>{{ 'alias.origin'|trans }}</th>
-                <th>{{ 'alias.user'|trans }}</th>
                 {% if not is_granted('ROLE_ADMIN') %}
                     <th></th>
+                {% else %}
+                    <th>{{ 'alias.user'|trans }}</th>
                 {% endif %}
             </tr>
             </thead>
@@ -39,7 +40,6 @@
                 <tr>
                     <td>{{ item.name }}</td>
                     <td>{{ item.origin }}</td>
-                    <td>{{ item.user }}</td>
                     {% if not is_granted('ROLE_ADMIN') %}
                         <td>
                             <a href="{{ path('alias_edit', {'user_id' : app.user.id, 'alias_id': item.id }) }}" class="btn btn-default">
@@ -49,6 +49,8 @@
                                 <i class="fa fa-trash"></i>
                             </a>
                         </td>
+                    {% else %}
+                        <td>{{ item.user }}</td>
                     {% endif %}
                 </tr>
 
