@@ -14,14 +14,18 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class AliasController
+ *
  * @Route("/{_locale}", requirements={"_locale"="%app.locales%"})
+ *
  * @package AppBundle\Controller
  */
 class AliasController extends Controller
 {
     /**
      * @Route("/alias/all", name="alias_all")
+     *
      * @Security("is_granted('ROLE_ADMIN')")
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function getAliasAllAction()
@@ -36,7 +40,11 @@ class AliasController extends Controller
 
     /**
      * @Route("/alias/{id}", name="alias_my")
+     *
+     * @Security("is_granted('ROLE_USER') and user.getId() == id")
+     *
      * @param User $user
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function getAliasByUserAction(User $user)
@@ -52,11 +60,16 @@ class AliasController extends Controller
     /**
      * @Route("/alias/{user_id}/new", name="alias_new")
      * @Route("/alias/edit/{user_id}/{alias_id}", name="alias_edit")
+     *
+     * @Security("is_granted('ROLE_USER') and user.getId() == user_id")
+     *
+     * @ParamConverter("alias", class="AppBundle:Alias", options={"id" = "alias_id"})
+     *
      * @param Request $request
-     * @param Alias $alias
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function formAliasAction(Request $request, Alias $alias = null)
+    public function formNewAliasAction(Request $request, Alias $alias = null)
     {
         /** @var EntityManager $em */
         $em =$this->getDoctrine()->getManager();
@@ -74,17 +87,20 @@ class AliasController extends Controller
                 $alias
                     ->setUser($this->getUser());
                 $em->flush();
+
                 $this->addFlash(
                     'success',
-                    'Success'
+                    'message.success'
                 );
 
-                return $this->redirectToRoute('homepage');
+                return $this->redirectToRoute('alias_my', [
+                    'id' => $this->getUser()->getId()
+                ]);
             }
             catch (\Exception $e) {
                 $this->addFlash(
                     'error',
-                    'Error'
+                    'message.error'
                 );
             }
         }
