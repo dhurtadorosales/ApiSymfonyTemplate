@@ -35,6 +35,6 @@ class AliasManager
     public function getAliasById(User $user)
     {
         return $this->em->getRepository('AppBundle:Alias')
-            ->find($user->getId());
+            ->getAliasByUser($user);
     }
 }

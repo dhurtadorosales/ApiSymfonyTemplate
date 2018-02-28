@@ -1,4 +1,5 @@
-alias.title: Alias
+alias.title_admin: Listado de alias
+alias.title_user: Alias de
 alias.name: Nombre
 alias.origin: Origen
 alias.user: Usuario

@@ -2,12 +2,22 @@
 
 {% trans_default_domain 'alias' %}
 
-{% block title %}{{ 'alias.title'|trans }}{% endblock %}
+{% block title %}
+    {% if is_granted('ROLE_ADMIN') %}
+        {{ 'alias.title_admin'|trans }}
+    {% else %}
+        {{ 'alias.title_user'|trans }} {{ app.user }}
+    {% endif %}
+{% endblock %}
 
 {% block content %}
     <div class="container">
         <div class="well">
-            <h2>{{ 'alias.title'|trans }}</h2>
+            {% if is_granted('ROLE_ADMIN') %}
+                <h2>{{ 'alias.title_admin'|trans }}</h2>
+            {% else %}
+                <h2>{{ 'alias.title_user'|trans }} {{ app.user }}</h2>
+            {% endif %}
         </div>
     </div>
 
@@ -18,6 +28,9 @@
                 <th>{{ 'alias.name'|trans }}</th>
                 <th>{{ 'alias.origin'|trans }}</th>
                 <th>{{ 'alias.user'|trans }}</th>
+                {% if not is_granted('ROLE_ADMIN') %}
+                    <th></th>
+                {% endif %}
             </tr>
             </thead>
             <tbody>
@@ -26,6 +39,9 @@
                     <td>{{ item.name }}</td>
                     <td>{{ item.origin }}</td>
                     <td>{{ item.user }}</td>
+                    {% if not is_granted('ROLE_ADMIN') %}
+                        <td></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
             </tbody>

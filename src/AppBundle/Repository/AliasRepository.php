@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\User;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 /**
  * AliasRepository
@@ -11,5 +13,23 @@ use Doctrine\ORM\EntityRepository;
  */
 class AliasRepository extends EntityRepository
 {
+    public function getAliasByUser(User $user)
+    {
+        /** @var EntityManager $em */
+        $em = $this->getEntityManager();
 
+        $query = $em->createQueryBuilder()
+            ->select('a')
+            ->addSelect('u')
+            ->from('AppBundle:Alias', 'a')
+            ->join('a.user', 'u')
+            ->where('u = :user')
+            ->andWhere('u.active = :active')
+            ->setParameter('user', $user)
+            ->setParameter('active', true)
+            ->getQuery()
+            ->getResult();
+
+        return $query;
+    }
 }
