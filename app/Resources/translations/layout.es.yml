@@ -4,5 +4,6 @@ layout.page.home: Inicio
 layout.page.access: Accede
 layout.profile: Mi perfil
 layout.page.alias_new: Nuevo alias
-layout.page.alias: Mis alias
+layout.page.alias_my: Mi alias
+layout.page.alias_all: Alias
 layout.page.users: Usuarios

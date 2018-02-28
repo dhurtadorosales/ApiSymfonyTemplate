@@ -1,0 +1,36 @@
+{% extends 'layout.html.twig' %}
+
+{% trans_default_domain 'alias' %}
+
+{% block title %}{{ 'alias.title'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="well">
+            <h2>{{ 'alias.title'|trans }}</h2>
+        </div>
+    </div>
+
+    <div class="container">
+        <table class="table table-responsive">
+            <thead>
+            <tr>
+                <th>{{ 'alias.name'|trans }}</th>
+                <th>{{ 'alias.origin'|trans }}</th>
+                <th>{{ 'alias.user'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in alias %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.origin }}</td>
+                    <td>{{ item.user }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+
+{% endblock %}

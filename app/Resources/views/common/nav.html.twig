@@ -16,10 +16,11 @@
                 <li><a href="{{ path('homepage') }}"><i class="fa fa-home"></i> {{ 'layout.page.home'|trans }}</a></li>
                 {% if app.user and not is_granted('ROLE_ADMIN') %}
                     <li><a href="{{ path('homepage') }}"><i class="fa fa-plus"></i> {{ 'layout.page.alias_new'|trans }}</a></li>
-                    <li><a href="{{ path('homepage') }}"><i class="fa fa-user-secret"></i> {{ 'layout.page.alias'|trans }}</a></li>
+                    <li><a href="{{ path('alias_my', {'id': app.user.id}) }}"><i class="fa fa-user-secret"></i> {{ 'layout.page.alias_my'|trans }}</a></li>
                 {% endif %}
                 {% if is_granted('ROLE_ADMIN') %}
                     <li><a href="{{ path('users_all') }}"><i class="fa fa-users"></i> {{ 'layout.page.users'|trans }}</a></li>
+                    <li><a href="{{ path('alias_all') }}"><i class="fa fa-user-secret"></i> {{ 'layout.page.alias_all'|trans }}</a></li>
                 {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">

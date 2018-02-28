@@ -6,6 +6,7 @@ use AppBundle\Entity\User;
 use AppBundle\Form\Type\ProfileType;
 use AppBundle\Form\Type\UserType;
 use Doctrine\ORM\EntityManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +21,7 @@ class UserController extends Controller
 {
     /**
      * @Route("/users/all", name="users_all")
+     * @Security("is_granted('ROLE_ADMIN')")
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function getUsersAction()
@@ -83,6 +85,7 @@ class UserController extends Controller
 
     /**
      * @Route("/user/delete/{id}", name="user_delete")
+     * @Security("is_granted('ROLE_ADMIN')")
      * @param User $user
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
@@ -132,6 +135,7 @@ class UserController extends Controller
 
     /**
      * @Route("/profile", name="profile")
+     * @Security("is_granted('ROLE_USER')")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
