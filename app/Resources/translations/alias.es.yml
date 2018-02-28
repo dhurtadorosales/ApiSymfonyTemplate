@@ -3,3 +3,5 @@ alias.title_user: Alias de
 alias.name: Nombre
 alias.origin: Origen
 alias.user: Usuario
+alias.remove: Vas a eliminar a
+alias.remove.question: ¿Estás seguro?

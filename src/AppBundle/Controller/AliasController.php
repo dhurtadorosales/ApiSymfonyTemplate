@@ -112,4 +112,39 @@ class AliasController extends Controller
         );
     }
 
+    /**
+     * @Route("/alias/{user_id}/delete/{alias_id}", name="alias_delete")
+     *
+     * @Security("is_granted('ROLE_USER') and user.getId() == user_id")
+     *
+     * @ParamConverter("alias", class="AppBundle:Alias", options={"id" = "alias_id"})
+     *
+     * @param Alias $alias
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteAliasAction(Alias $alias)
+    {
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+
+        try {
+            $em->remove($alias);
+            $em->flush();
+            $this->addFlash(
+                'success',
+                'message.success'
+            );
+        } catch (\Exception $e) {
+            $this->addFlash(
+                'error',
+                'message.error'
+            );
+        }
+
+        return $this->redirectToRoute('alias_my', [
+            'id' => $this->getUser()->getId()
+        ]);
+    }
+
 }
