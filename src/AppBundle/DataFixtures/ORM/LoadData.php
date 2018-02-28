@@ -42,7 +42,8 @@ class LoadData extends Fixture
     public function load(ObjectManager $manager)
     {
         $usersData = [
-            ['clark@kent.com', 'clark', 'Clark', 'Kent', true, true],
+            ['admin@admin.com', 'admin', 'Admin', 'Admin', true, true],
+            ['clark@kent.com', 'clark', 'Clark', 'Kent', false, true],
             ['bruce@wayne.com', 'bruce', 'Bruce', 'Wayne', false, true],
             ['diana@prince.com', 'diana', 'Diana', 'Prince', false, true]
         ];
@@ -66,10 +67,10 @@ class LoadData extends Fixture
         }
 
         $aliasData = [
-            ['Superman', 'Metrópolis', $users[0]],
-            ['Kal-El', 'Krypton', $users[0]],
-            ['Batman', 'Gotham', $users[1]],
-            ['Wonder Woman', 'Themyscira', $users[2]]
+            ['Superman', 'Metrópolis', $users[1]],
+            ['Kal-El', 'Krypton', $users[1]],
+            ['Batman', 'Gotham', $users[2]],
+            ['Wonder Woman', 'Themyscira', $users[3]]
         ];
 
         $aliases = [];

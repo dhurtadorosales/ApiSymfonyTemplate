@@ -147,8 +147,8 @@ class UserController extends Controller
             if ($passForm) {
                 $encoder = $this->container->get(UserPasswordEncoderInterface::class);
 
-                $pass = $encoder->encodePassword($user, $form['password']->getData());
-                ******
+                $pass = $encoder->encodePassword($user, $form->get('password')->getData());
+
                 $user->setPass($pass);
 
                 $user->setClave($pass);

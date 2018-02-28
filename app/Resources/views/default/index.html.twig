@@ -5,27 +5,18 @@
 {% block title %}{{ 'home.title'|trans }}{% endblock %}
 
 {% block content %}
-    {#<div class="container">
-        <ul>
-            <li>
-                <a href="{{ path('users_all') }}" class="btn btn-primary">Get Users</a>
-            </li>
-            <li>
-                <a href="{{ path('user_new') }}" class="btn btn-primary">New User</a>
-            </li>
-        </ul>
-        <input type="text" placeholder="search">
-        <a href="" class="btn btn-primary">Search</a>
-    </div>#}
 
     {% include 'common/flash.html.twig' %}
 
-    <section>
-        <div class="container">
-            <div class="well">
-                <h2>{{ 'home.welcome'|trans }} {{ site_name }}</h2>
-            </div>
+    <div class="container">
+        <div class="well">
+            {% if app.user %}
+                <h2>{{ 'home.welcome_in'|trans }} {{ app.user.name }}</h2>
+            {% else %}
+                <h2>{{ 'home.welcome_out'|trans }}</h2>
+            {% endif %}
         </div>
-    </section>
+    </div>
+
 {% endblock %}
 

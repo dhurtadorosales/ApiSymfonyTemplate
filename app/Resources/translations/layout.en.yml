@@ -3,3 +3,6 @@ layout.up: Go Up
 layout.page.home: Home
 layout.page.access: Access
 layout.profile: My profile
+layout.page.alias_new: New alias
+layout.page.alias: My alias
+layout.page.users: Users
