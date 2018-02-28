@@ -36,26 +36,26 @@ class UserController extends Controller
 
     /**
      * @Route("/user/new", name="user_new")
-     * @Route("/user/edit/{id}", name="user_edit")
      * @param Request $request
-     * @param User $user
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function formUserAction(Request $request, User $user = null)
+    public function formNewUserAction(Request $request)
     {
         /** @var EntityManager $em */
         $em =$this->getDoctrine()->getManager();
 
-        if (null == $user) {
-            $user = new User();
-            $em->persist($user);
-        }
+        $user = new User();
+        $em->persist($user);
 
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                $user
+                    ->setActive(true)
+                    ->setAdmin(false);
+
                 $encoder = $this->container->get(UserPasswordEncoderInterface::class);
 
                 $pass = $encoder->encodePassword($user, $form['password']->getData());

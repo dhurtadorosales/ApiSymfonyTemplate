@@ -25,10 +25,28 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if app.user %}
-                    <li><a href="{{ path('profile') }}"><i class="fa fa-user"></i> {{ 'layout.profile'|trans }}</a></li>
-                    <li><a href="{{ path('logout') }}">{{ app.user }} <i class="fa fa-sign-out"></i></a></li>
+                    <li>
+                        <a href="{{ path('profile') }}">
+                            <i class="fa fa-user"></i> {{ 'layout.profile'|trans }}
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ path('logout') }}">{{ app.user }} <i class="fa fa-sign-out"></i>
+                        </a>
+                    </li>
                 {% else %}
-                    <li><a href="{{ path('login') }}">{{ 'layout.page.access'|trans }}</a></li>
+                    <li>
+                        <a href="{{ path('user_new') }}">
+                            <i class="fa fa-user-plus"></i> {{ 'layout.page.register'|trans }}
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ path('login') }}">
+                            <i class="fa fa-sign-in"></i> {{ 'layout.page.access'|trans }}
+                        </a>
+                    </li>
                 {% endif %}
             </ul>
         </div><!--/.nav-collapse -->
