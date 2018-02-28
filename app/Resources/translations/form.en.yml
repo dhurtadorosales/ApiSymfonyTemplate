@@ -6,3 +6,5 @@ form.profile.new.password: New password
 form.profile.repeat.password: Repeat new password
 form.user.edit: Edit
 form.user.new: New user
+form.alias.new: New alias
+form.alias.edit: Edit
