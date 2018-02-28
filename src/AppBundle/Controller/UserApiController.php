@@ -8,13 +8,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
  * Class UserController
- * @Route("/api")
+ *
+ * @Route("/api/user")
+ *
  * @package AppBundle\Controller
  */
 class UserApiController extends Controller
 {
     /**
-     * @Route("/users/all", name="api_users_all")
+     * @Route("/all", name="api_users_all")
+     *
      * @return array
      */
     public function getUsersApiAction()

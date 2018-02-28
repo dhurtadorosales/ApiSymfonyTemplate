@@ -15,14 +15,18 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class UserController
- * @Route("/{_locale}", requirements={"_locale"="%app.locales%"})
+ *
+ * @Route("/{_locale}/user", requirements={"_locale"="%app.locales%"})
+ *
  * @package AppBundle\Controller
  */
 class UserController extends Controller
 {
     /**
-     * @Route("/users/all", name="users_all")
+     * @Route("/all", name="users_all")
+     *
      * @Security("is_granted('ROLE_ADMIN')")
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function getUsersAction()
@@ -36,8 +40,10 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/user/new", name="user_new")
+     * @Route("/new", name="user_new")
+     *
      * @param Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function formNewUserAction(Request $request)
@@ -85,9 +91,12 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/user/delete/{id}", name="user_delete")
+     * @Route("/delete/{id}", name="user_delete")
+     *
      * @Security("is_granted('ROLE_ADMIN')")
+     *
      * @param User $user
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteUserAction(User $user)
@@ -121,6 +130,7 @@ class UserController extends Controller
 
     /**
      * @Route("/login", name="login")
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function loginAction()

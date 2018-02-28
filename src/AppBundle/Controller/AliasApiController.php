@@ -13,40 +13,36 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class AliasController
+ * Class AliasApiController
  *
- * @Route("/{_locale}/alias", requirements={"_locale"="%app.locales%"})
+ * @Route("/api/alias", requirements={"_locale"="%app.locales%"})
  *
  * @package AppBundle\Controller
  */
-class AliasController extends Controller
+class AliasApiController extends Controller
 {
     /**
-     * @Route("/all", name="alias_all")
+     * @Route("/all", name="api_alias_all")
      *
-     * @Security("is_granted('ROLE_ADMIN')")
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return array
      */
     public function getAliasAllAction()
     {
         $aliasManager = $this->get('alias_manager');
         $alias = $aliasManager->getAliasAll();
 
-        return $this->render('alias/alias.html.twig', [
+        return [
             'alias' => $alias
-        ]);
+        ];
     }
 
-    /**
-     * @Route("/{id}", name="alias_my")
-     *
-     * @Security("is_granted('ROLE_USER') and user.getId() == id")
+    /*
+     * @Route("/{id}", name="api_alias_my")
      *
      * @param User $user
      *
      * @return \Symfony\Component\HttpFoundation\Response
-     */
+     *
     public function getAliasByUserAction(User $user)
     {
         $aliasManager = $this->get('alias_manager');
@@ -57,22 +53,20 @@ class AliasController extends Controller
         ]);
     }
 
-    /**
-     * @Route("/{user_id}/new", name="alias_new")
+    /*
+     * @Route("/{user_id}/new", name="api_alias_new")
      * @Route("/edit/{user_id}/{alias_id}", name="alias_edit")
-     *
-     * @Security("is_granted('ROLE_USER') and user.getId() == user_id")
      *
      * @ParamConverter("alias", class="AppBundle:Alias", options={"id" = "alias_id"})
      *
      * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     */
+     *
     public function formNewAliasAction(Request $request, Alias $alias = null)
     {
-        /** @var EntityManager $em */
-        $em =$this->getDoctrine()->getManager();
+         @var EntityManager $em
+        $em = $this->getDoctrine()->getManager();
 
         if (null == $alias) {
             $alias = new Alias();
@@ -112,20 +106,18 @@ class AliasController extends Controller
         );
     }
 
-    /**
-     * @Route("/{user_id}/delete/{alias_id}", name="alias_delete")
-     *
-     * @Security("is_granted('ROLE_USER') and user.getId() == user_id")
+    /*
+     * @Route("/{user_id}/delete/{alias_id}", name="api_alias_delete")
      *
      * @ParamConverter("alias", class="AppBundle:Alias", options={"id" = "alias_id"})
      *
      * @param Alias $alias
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
+     *
     public function deleteAliasAction(Alias $alias)
     {
-        /** @var EntityManager $em */
+         @var EntityManager $em
         $em = $this->getDoctrine()->getManager();
 
         try {
@@ -134,7 +126,7 @@ class AliasController extends Controller
             $this->addFlash(
                 'success',
                 'message.success'
-            );
+            );/*
         } catch (\Exception $e) {
             $this->addFlash(
                 'error',
@@ -145,6 +137,6 @@ class AliasController extends Controller
         return $this->redirectToRoute('alias_my', [
             'id' => $this->getUser()->getId()
         ]);
-    }
+    }*/
 
 }
