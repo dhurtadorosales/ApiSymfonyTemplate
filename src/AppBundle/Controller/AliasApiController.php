@@ -5,6 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Alias;
 use AppBundle\Entity\User;
 use AppBundle\Form\Type\AliasType;
+use AppBundle\Model\Manager\AliasManager;
+use AppBundle\Model\Manager\Helpers;
 use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -28,12 +30,13 @@ class AliasApiController extends Controller
      */
     public function getAliasAllAction()
     {
-        $aliasManager = $this->get('alias_manager');
-        $alias = $aliasManager->getAliasAll();
+        $aliasManager = $this->get(AliasManager::class);
+        $data = $aliasManager->getAliasAll();
 
-        return [
-            'alias' => $alias
-        ];
+        $helpers = $this->get(Helpers::class);
+        $alias = $helpers->json($data);
+
+        return $alias;
     }
 
     /*

@@ -2,12 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Model\Manager\Helpers;
 use AppBundle\Model\Manager\UserManager;
-use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\Routing\ClassResourceInterface;
-use FOS\RestBundle\View\View;
-use FOS\RestBundle\Controller\Annotations as FOS;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * Class UserController
@@ -16,10 +14,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  *
  * @package AppBundle\Controller
  */
-class UserApiController extends FOSRestController implements ClassResourceInterface
+class UserApiController extends Controller
 {
     /**
-     * @FOS\Get("/all", name="api_users_all")
+     * @Route("/all", name="api_users_all")
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -28,28 +26,9 @@ class UserApiController extends FOSRestController implements ClassResourceInterf
         $userManager = $this->get(UserManager::class);
         $data = $userManager->getUsers();
 
-        /*$data = [
-            [
-                'email' => 'admin@admin.com',
-                'pass' => 'admin',
-                'name' => 'Admin',
-                'lastName' => 'Admin',
-                'admin' => true,
-                'active' =>true
-            ],
-            [
-                'email' => 'bruce@wayne.com',
-                'pass' => 'bruce',
-                'name' => 'Bruce',
-                'lastName' => 'Wayne',
-                'admin' => true,
-                'active' =>true
-            ]
-        ];*/
+        $helpers = $this->get(Helpers::class);
+        $users = $helpers->json($data);
 
-        $view = $this->view($data, 200);
-        $view->setData($data);
-
-        return $this->handleView($view);
+        return $users;
     }
 }

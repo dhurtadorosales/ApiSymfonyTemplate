@@ -36,6 +36,11 @@ services:
     #     arguments:
     #         $someArgument: 'some_value'
 
+    AppBundle\Model\Manager\Helpers:
+        public: true
+        arguments:
+            $em: '@doctrine.orm.entity_manager'
+
     AppBundle\Model\Manager\UserManager:
         public: true
         arguments:
