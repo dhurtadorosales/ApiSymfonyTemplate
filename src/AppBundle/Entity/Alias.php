@@ -3,12 +3,19 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Alias
  *
  * @ORM\Table(name="alias")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\AliasRepository")
+ *
+ * @UniqueEntity(
+ *     fields={"name"},
+ *     message="message.alias.already_used"
+ * )
  */
 class Alias
 {
@@ -25,6 +32,12 @@ class Alias
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     *
+     * @Assert\NotBlank(message="message.required")
+     * @Assert\Regex(
+     *     pattern="/^[A-Z a-zÑñáéíóúÁÉÍÓÚ , .]*$/",
+     *     message="message.regex.string"
+     * )
      */
     private $name;
 
@@ -32,6 +45,12 @@ class Alias
      * @var string
      *
      * @ORM\Column(name="origin", type="text")
+     *
+     * @Assert\NotBlank(message="message.required")
+     * @Assert\Regex(
+     *     pattern="/^[A-Z a-zÑñáéíóúÁÉÍÓÚ , .]*$/",
+     *     message="message.regex.string"
+     * )
      */
     private $origin;
 

@@ -1,3 +1,8 @@
 message.success: Changes has been saved successfully
 message.error: Error to save changes
 message.admin.error: Yoy can't remove Admin
+message.email.already_used: This email already is used
+message.email.invalid: Format email not valid
+message.required: Required field
+message.regex.string: Format not valid
+message.alias.already_used: This alias already is used

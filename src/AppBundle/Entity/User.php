@@ -4,12 +4,19 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ *
+ * @UniqueEntity(
+ *     fields={"email"},
+ *     message="message.email.already_used"
+ * )
  */
 class User implements AdvancedUserInterface
 {
@@ -25,12 +32,17 @@ class User implements AdvancedUserInterface
     /**
      * @var string
      * @ORM\Column(name="email", type="string", length=255)
+     *
+     * @Assert\Email(message="message.email.invalid")
+     * @Assert\NotBlank(message="message.required")
      */
     private $email;
 
     /**
      * @var string
      * @ORM\Column(name="pass", type="string")
+     *
+     * @Assert\NotBlank(message="message.required")
      */
     private $pass;
 
@@ -38,6 +50,12 @@ class User implements AdvancedUserInterface
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     *
+     * @Assert\NotBlank(message="message.required")
+     * @Assert\Regex(
+     *     pattern="/^[A-Z a-zÑñáéíóúÁÉÍÓÚ , .]*$/",
+     *     message="message.regex.string"
+     * )
      */
     private $name;
 
@@ -45,6 +63,12 @@ class User implements AdvancedUserInterface
      * @var string
      *
      * @ORM\Column(name="lastName", type="string", length=255)
+     *
+     * @Assert\NotBlank(message="message.required")
+     * @Assert\Regex(
+     *     pattern="/^[A-Z a-zÑñáéíóúÁÉÍÓÚ , .]*$/",
+     *     message="message.regex.string"
+     * )
      */
     private $lastName;
 
@@ -56,12 +80,14 @@ class User implements AdvancedUserInterface
 
     /**
      * @var boolean
-     * @ORM\Column(type="boolean")
+     *
+     * @ORM\Column(name="active", type="boolean")
      */
     private $active;
 
     /**
      * @var Alias[]
+     *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Alias", mappedBy="user")
      * @ORM\JoinColumn(nullable=true)
      */

@@ -1,3 +1,8 @@
 message.success: Cambios guardados con éxito
 message.error: Error al guardar los cambios
 message.admin.error: No se puede eliminar al administrador
+message.email.already_used: Este email ya existe
+message.email.invalid: Formato de email no válido
+message.required: Campo obligatorio
+message.regex.string: Formato no válido
+message.alias.already_used: Este alias ya existe
