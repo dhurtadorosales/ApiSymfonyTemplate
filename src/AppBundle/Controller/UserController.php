@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
+use AppBundle\Form\Type\PasswordChangeType;
 use AppBundle\Form\Type\ProfileType;
 use AppBundle\Form\Type\UserType;
 use Doctrine\ORM\EntityManager;
@@ -63,16 +64,18 @@ class UserController extends Controller
                     ->setActive(true)
                     ->setAdmin(false);
 
-                $encoder = $this->container->get(UserPasswordEncoderInterface::class);
+                $encoder = $this->get('security.password_encoder');
+                $pass = $encoder->encodePassword($user, $form->get('pass')->getData());
 
-                $pass = $encoder->encodePassword($user, $form['password']->getData());
                 $user->setPass($pass);
                 
                 $em->flush();
+
                 $this->addFlash(
                     'success',
                     'Success'
                 );
+
                 return $this->redirectToRoute('homepage');
             }
             catch (\Exception $e) {
@@ -109,6 +112,7 @@ class UserController extends Controller
                 $user
                     ->setActive(false);
                 $em->flush();
+
                 $this->addFlash(
                     'success',
                     'message.success'
@@ -184,26 +188,39 @@ class UserController extends Controller
     public function changePasswordAction(Request $request) {
         $user = $this->getUser();
 
-        $form = $this->createForm(ProfileType::class, $user);
+        $form = $this->createForm(PasswordChangeType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isValid() && $form->isSubmitted()) {
-            $passForm = $form->get('new')->get('first')->getData();
+            try {
+                $passForm = $form->get('new')->get('first')->getData();
 
-            if ($passForm) {
-                $encoder = $this->container->get(UserPasswordEncoderInterface::class);
+                if ($passForm) {
+                    $encoder = $this->get('security.password_encoder');
 
-                $pass = $encoder->encodePassword($user, $form->get('password')->getData());
+                    $pass = $encoder->encodePassword($user, $form->get('pass')->getData());
+                    $user->setPass($pass);
+                }
+                $this->getDoctrine()->getManager()->flush();
 
-                $user->setPass($pass);
+                $this->addFlash(
+                    'success',
+                    'message.success'
+                );
 
-                $user->setClave($pass);
+                return $this->redirectToRoute('homepage');
+
+            } catch (\Exception $e) {
+                $this->addFlash(
+                    'error',
+                    'message.error'
+                );
             }
-            $this->getDoctrine()->getManager()->flush();
         }
 
         return $this->render('user/change_pass.html.twig', [
             'form' => $form->createView()
         ]);
     }
+
 }
