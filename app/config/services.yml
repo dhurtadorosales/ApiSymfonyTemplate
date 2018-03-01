@@ -36,20 +36,17 @@ services:
     #     arguments:
     #         $someArgument: 'some_value'
 
-    user_manager:
-        class: AppBundle\Model\Manager\UserManager
+    AppBundle\Model\Manager\UserManager:
         public: true
         arguments:
             $em: '@doctrine.orm.entity_manager'
 
-    alias_manager:
-        class: AppBundle\Model\Manager\AliasManager
+    AppBundle\Model\Manager\AliasManager:
         public: true
         arguments:
             $em: '@doctrine.orm.entity_manager'
 
-    mailer_manager:
-        class: AppBundle\Model\Manager\MailerManager
+    AppBundle\Model\Manager\MailerManager:
         public: true
         arguments:
             $mailer: '@mailer'

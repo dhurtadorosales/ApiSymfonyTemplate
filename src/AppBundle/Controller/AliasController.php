@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Alias;
 use AppBundle\Entity\User;
 use AppBundle\Form\Type\AliasType;
+use AppBundle\Model\Manager\AliasManager;
 use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -30,7 +31,7 @@ class AliasController extends Controller
      */
     public function getAliasAllAction()
     {
-        $aliasManager = $this->get('alias_manager');
+        $aliasManager = $this->get(AliasManager::class);
         $alias = $aliasManager->getAliasAll();
 
         return $this->render('alias/alias.html.twig', [
@@ -49,7 +50,7 @@ class AliasController extends Controller
      */
     public function getAliasByUserAction(User $user)
     {
-        $aliasManager = $this->get('alias_manager');
+        $aliasManager = $this->get(AliasManager::class);
         $alias = $aliasManager->getAliasById($user);
 
         return $this->render('alias/alias.html.twig', [

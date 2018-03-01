@@ -7,13 +7,13 @@ use AppBundle\Form\Type\PasswordChangeType;
 use AppBundle\Form\Type\ProfileType;
 use AppBundle\Form\Type\UserType;
 use AppBundle\Model\Manager\MailerManager;
+use AppBundle\Model\Manager\UserManager;
 use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class UserController
@@ -33,7 +33,7 @@ class UserController extends Controller
      */
     public function getUsersAction()
     {
-        $userManager = $this->get('user_manager');
+        $userManager = $this->get(UserManager::class);
         $users = $userManager->getUsers();
 
         return $this->render('user/users.html.twig', [
@@ -105,7 +105,7 @@ class UserController extends Controller
     public function nuevoAction()
     {
         $user = $this->getUser();
-        $mailerManager = $this->get('mailer_manager');
+        $mailerManager = $this->get(MailerManager::class);
         $mailerManager->sendWelcomeToUser($user);
 
         return $this->render('default/index.html.twig');

@@ -2,8 +2,11 @@
 
 namespace AppBundle\Controller;
 
-use Doctrine\ORM\EntityManager;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Model\Manager\UserManager;
+use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Routing\ClassResourceInterface;
+use FOS\RestBundle\View\View;
+use FOS\RestBundle\Controller\Annotations as FOS;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
@@ -13,20 +16,40 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  *
  * @package AppBundle\Controller
  */
-class UserApiController extends Controller
+class UserApiController extends FOSRestController implements ClassResourceInterface
 {
     /**
-     * @Route("/all", name="api_users_all")
+     * @FOS\Get("/all", name="api_users_all")
      *
-     * @return array
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function getUsersApiAction()
     {
-        $userManager = $this->get('user_manager');
-        $users = $userManager->getUsers();
+        $userManager = $this->get(UserManager::class);
+        $data = $userManager->getUsers();
 
-        return [
-            'users' => $users
-        ];
+        /*$data = [
+            [
+                'email' => 'admin@admin.com',
+                'pass' => 'admin',
+                'name' => 'Admin',
+                'lastName' => 'Admin',
+                'admin' => true,
+                'active' =>true
+            ],
+            [
+                'email' => 'bruce@wayne.com',
+                'pass' => 'bruce',
+                'name' => 'Bruce',
+                'lastName' => 'Wayne',
+                'admin' => true,
+                'active' =>true
+            ]
+        ];*/
+
+        $view = $this->view($data, 200);
+        $view->setData($data);
+
+        return $this->handleView($view);
     }
 }
