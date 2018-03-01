@@ -185,23 +185,31 @@ class UserController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function changePasswordAction(Request $request) {
+    public function changePasswordAction(Request $request)
+    {
+        /** @var EntityManager $em */
+        $em =$this->getDoctrine()->getManager();
+
         $user = $this->getUser();
+        $em->persist($user);
 
         $form = $this->createForm(PasswordChangeType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isValid() && $form->isSubmitted()) {
+            dump($form->get('new')->get('first')->getData());
+            dump($user);
             try {
                 $passForm = $form->get('new')->get('first')->getData();
 
                 if ($passForm) {
                     $encoder = $this->get('security.password_encoder');
 
-                    $pass = $encoder->encodePassword($user, $form->get('pass')->getData());
+                    $pass = $encoder->encodePassword($user, $passForm);
                     $user->setPass($pass);
                 }
-                $this->getDoctrine()->getManager()->flush();
+
+                $em->flush();
 
                 $this->addFlash(
                     'success',
