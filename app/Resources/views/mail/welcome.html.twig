@@ -1,0 +1,33 @@
+{% trans_default_domain 'mail' %}
+
+{% block subject -%}
+    {% autoescape false %}
+        {{ 'welcome.subject'|trans({
+            '%user%': user
+        }) }}
+    {% endautoescape %}
+{%- endblock %}
+
+{% block message %}
+    {{ 'welcome.message'|trans({
+        '%user%': user
+    }) }}
+{% endblock %}
+
+{% block body_text %}
+    {% autoescape false %}
+        {{ message }}
+    {% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+    {% embed "mail/layout.html.twig" %}
+        {% trans_default_domain 'mail' %}
+
+        {% block content %}
+            {% autoescape false %}
+                {{ message|nl2br }}
+            {% endautoescape %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

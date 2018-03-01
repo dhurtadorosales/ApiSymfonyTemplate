@@ -6,6 +6,7 @@ use AppBundle\Entity\User;
 use AppBundle\Form\Type\PasswordChangeType;
 use AppBundle\Form\Type\ProfileType;
 use AppBundle\Form\Type\UserType;
+use AppBundle\Model\Manager\MailerManager;
 use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -71,18 +72,8 @@ class UserController extends Controller
                 
                 $em->flush();
 
-                $message = \Swift_Message::newInstance()
-                    ->setSubject('Hola')
-                    ->setFrom('example@example.com')
-                    ->setTo('dhurtadorosales@gmail.com')
-                    ->setBody(
-                        $this->render(
-                        'default/index.html.twig'
-                        ),
-                        'text/html'
-                    );
-
-                $this->get('mailer')->send($message);
+                $mailerManager = $this->get('mailer_manager');
+                $mailerManager->sendWelcomeToUser($user);
 
                 $this->addFlash(
                     'success',
@@ -104,6 +95,20 @@ class UserController extends Controller
             'form' => $form->createView()
             ]
         );
+    }
+
+    /**
+     * @Route("/nuevo", name="nuevo")
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function nuevoAction()
+    {
+        $user = $this->getUser();
+        $mailerManager = $this->get('mailer_manager');
+        $mailerManager->sendWelcomeToUser($user);
+
+        return $this->render('default/index.html.twig');
     }
 
     /**

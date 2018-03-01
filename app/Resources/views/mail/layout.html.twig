@@ -1,0 +1,96 @@
+{% trans_default_domain 'mail' %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>{{ site_name }}</title>
+
+    {% block stylesheets %}
+        {% stylesheets
+            'css/email.css'
+
+            filter='cssrewrite, ?minifycsscompressor' output='css/compiled/email.css' %}
+            <link rel="stylesheet" href="{{ asset_url }}" type="text/css" media="all">
+        {% endstylesheets %}
+    {% endblock %}
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+<body>
+    <table class="header-wrap">
+        <tr>
+            <td>
+                <a href="{{ url('homepage') }}">
+                    <img src="{{ asset('favicon.ico') }}" alt="{{ site_name }}">
+                </a>
+            </td>
+            <td class="container">
+
+                <div class="content">
+                    <table>
+                        <tr>
+                            <td align="center">
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </td>
+            <td></td>
+        </tr>
+    </table>
+
+    <table class="body-wrap">
+        <tr>
+            <td></td>
+            <td class="container">
+
+                <div class="content">
+                    <table>
+                        <tr>
+                            <td>
+                                {% block content %}
+
+                                {% endblock %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </td>
+            <td></td>
+        </tr>
+    </table>
+
+    <table class="footer-wrap">
+        <tr>
+            <td></td>
+            <td class="container">
+
+                <div class="content">
+                    <table>
+                        <tr>
+                            <td align="left">
+                                <p>
+                                    {{ 'all_the_best.email.footer'|trans }},  <br/><br/>
+                                    {{ site_name }}  <br/>
+                                    {{ site_email }}  <br/>
+                                </p>
+
+                                <p>
+                                    &copy; {{ "now"|date("Y") }} - {{ site_author }}
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </td>
+            <td></td>
+        </tr>
+    </table>
+
+</body>
+</html>

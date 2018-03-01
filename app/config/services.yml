@@ -2,6 +2,8 @@
 # https://symfony.com/doc/current/service_container.html
 parameters:
     #parameter_name: value
+    email.templates:
+        welcome_template: 'mail/welcome.html.twig'
 
 services:
     # default configuration for services in *this* file
@@ -46,15 +48,14 @@ services:
         arguments:
             $em: '@doctrine.orm.entity_manager'
 
-    #mailer_manager:
-     #   class: AppBundle\Model\Manager\MailerManager
-      #  public: true
-       # arguments:
-        #    $mailer: '@mailer'
-         #   $router: '@router'
-          #  $twig: '@twig'
-           # $logger: '@logger'
-           # $loggerHandler: '@monolog.handler.email'
-           # parameters:
-            #    contact_email: '%contact.mail%'
-            #templates:
+    mailer_manager:
+        class: AppBundle\Model\Manager\MailerManager
+        public: true
+        arguments:
+            $mailer: '@mailer'
+            $router: '@router'
+            $twig: '@twig'
+            $logger: '@logger'
+            $loggerHandler: '@monolog.handler.email'
+            $siteEmail: '%site.email%'
+            $templates: '%email.templates%'
