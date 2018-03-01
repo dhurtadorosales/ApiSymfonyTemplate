@@ -20,3 +20,8 @@ monolog:
         console:
             type: console
             process_psr_3_messages: false
+
+swiftmailer:
+#    delivery_addresses: ['me@example.com']
+    spool:
+        type: memory

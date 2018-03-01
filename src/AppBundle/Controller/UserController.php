@@ -71,6 +71,19 @@ class UserController extends Controller
                 
                 $em->flush();
 
+                $message = \Swift_Message::newInstance()
+                    ->setSubject('Hola')
+                    ->setFrom('example@example.com')
+                    ->setTo('dhurtadorosales@gmail.com')
+                    ->setBody(
+                        $this->render(
+                        'default/index.html.twig'
+                        ),
+                        'text/html'
+                    );
+
+                $this->get('mailer')->send($message);
+
                 $this->addFlash(
                     'success',
                     'Success'
@@ -197,8 +210,6 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid() && $form->isSubmitted()) {
-            dump($form->get('new')->get('first')->getData());
-            dump($user);
             try {
                 $passForm = $form->get('new')->get('first')->getData();
 
