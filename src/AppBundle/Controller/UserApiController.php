@@ -4,8 +4,9 @@ namespace AppBundle\Controller;
 
 use AppBundle\Model\Manager\Helpers;
 use AppBundle\Model\Manager\UserManager;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\Controller\FOSRestController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * Class UserController
@@ -14,10 +15,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  *
  * @package AppBundle\Controller
  */
-class UserApiController extends Controller
+class UserApiController extends FOSRestController
 {
     /**
-     * @Route("/all", name="api_users_all")
+     * @Rest\Get("/all", name="api_users_all", options={"method_prefix"=false})
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */

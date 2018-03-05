@@ -2,17 +2,11 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Alias;
-use AppBundle\Entity\User;
-use AppBundle\Form\Type\AliasType;
 use AppBundle\Model\Manager\AliasManager;
 use AppBundle\Model\Manager\Helpers;
-use Doctrine\ORM\EntityManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\Controller\FOSRestController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class AliasApiController
@@ -21,10 +15,10 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @package AppBundle\Controller
  */
-class AliasApiController extends Controller
+class AliasApiController extends FOSRestController
 {
     /**
-     * @Route("/all", name="api_alias_all")
+     * @Rest\Get("/all", name="api_alias_all", options={"method_prefix"=false})
      *
      * @return array
      */
