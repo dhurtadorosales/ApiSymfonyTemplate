@@ -2,11 +2,15 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Alias;
 use AppBundle\Model\Manager\AliasManager;
 use AppBundle\Model\Manager\Helpers;
+use Doctrine\ORM\EntityManager;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class AliasApiController
@@ -31,6 +35,41 @@ class AliasApiController extends FOSRestController
         $alias = $helpers->json($data);
 
         return $alias;
+    }
+
+    /**
+     * @Rest\Post("/new", name="api_alias_new")
+
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function newAliasAction(Request $request)
+    {
+        $helpers = $this->get(Helpers::class);
+        $json = $request->get('json', null);
+        $params = json_decode($json);
+
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+
+        $alias = new Alias();
+        $alias
+            ->setName($params->name)
+            ->setOrigin($params->origin);
+
+        $em->persist($alias);
+        $em->flush();
+
+        $data = [
+            'status' => 'success',
+            'code' => 200,
+            'data' => $alias
+        ];
+
+        return $helpers->json($data);
+
     }
 
     /*
