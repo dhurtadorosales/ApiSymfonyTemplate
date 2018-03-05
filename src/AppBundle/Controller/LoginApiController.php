@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class LoginApiController extends FOSRestController
 {
     /**
-     * @Rest\Post("/", name="api_login", options={"method_prefix"=true})
+     * @Rest\Post("/", name="api_login")
      *
      * @param Request $request
      *
