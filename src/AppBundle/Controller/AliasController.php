@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Alias;
-use AppBundle\Entity\User;
+use UserBundle\Entity\User;
 use AppBundle\Form\Type\AliasType;
 use AppBundle\Model\Manager\AliasManager;
 use Doctrine\ORM\EntityManager;

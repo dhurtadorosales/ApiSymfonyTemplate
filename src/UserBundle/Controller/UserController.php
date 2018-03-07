@@ -1,13 +1,13 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace UserBundle\Controller;
 
-use AppBundle\Entity\User;
-use AppBundle\Form\Type\PasswordChangeType;
-use AppBundle\Form\Type\ProfileType;
-use AppBundle\Form\Type\UserType;
+use UserBundle\Entity\User;
+use UserBundle\Form\Type\PasswordChangeType;
+use UserBundle\Form\Type\ProfileType;
+use UserBundle\Form\Type\UserType;
 use AppBundle\Model\Manager\MailerManager;
-use AppBundle\Model\Manager\UserManager;
+use UserBundle\Model\Manager\UserManager;
 use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -47,6 +47,8 @@ class UserController extends Controller
      * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Doctrine\ORM\ORMException
      */
     public function formNewUserAction(Request $request)
     {
@@ -72,7 +74,7 @@ class UserController extends Controller
                 
                 $em->flush();
 
-                $mailerManager = $this->get('mailer_manager');
+                $mailerManager = $this->get(MailerManager::class);
                 $mailerManager->sendWelcomeToUser($user);
 
                 $this->addFlash(
@@ -95,20 +97,6 @@ class UserController extends Controller
             'form' => $form->createView()
             ]
         );
-    }
-
-    /**
-     * @Route("/nuevo", name="nuevo")
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function nuevoAction()
-    {
-        $user = $this->getUser();
-        $mailerManager = $this->get(MailerManager::class);
-        $mailerManager->sendWelcomeToUser($user);
-
-        return $this->render('default/index.html.twig');
     }
 
     /**
@@ -202,6 +190,8 @@ class UserController extends Controller
      * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Doctrine\ORM\ORMException
      */
     public function changePasswordAction(Request $request)
     {

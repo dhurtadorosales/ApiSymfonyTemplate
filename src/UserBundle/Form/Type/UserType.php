@@ -1,9 +1,9 @@
 <?php
 
-namespace AppBundle\Form\Type;
+namespace UserBundle\Form\Type;
 
 
-use AppBundle\Entity\User;
+use UserBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;

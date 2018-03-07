@@ -1,7 +1,6 @@
 <?php
 
-namespace AppBundle\Model\Manager;
-
+namespace UserBundle\Model\Manager;
 
 use Doctrine\ORM\EntityManager;
 
@@ -23,7 +22,7 @@ class UserManager
      */
     public function getUsers()
     {
-        return $this->em->getRepository('AppBundle:User')
+        return $this->em->getRepository('UserBundle:User')
             ->getActiveUsers();
     }
 }

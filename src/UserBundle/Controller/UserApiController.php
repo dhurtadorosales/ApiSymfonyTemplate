@@ -1,9 +1,9 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace UserBundle\Controller;
 
 use AppBundle\Model\Manager\Helpers;
-use AppBundle\Model\Manager\UserManager;
+use UserBundle\Model\Manager\UserManager;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
