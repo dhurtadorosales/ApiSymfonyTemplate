@@ -2,7 +2,9 @@
 
 namespace UserBundle\Entity;
 
+use AppBundle\Entity\Alias;
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User as BaseUser;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -18,7 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     message="message.email.already_used"
  * )
  */
-class User implements AdvancedUserInterface
+class User extends BaseUser
 {
     /**
      * @var int
@@ -27,29 +29,12 @@ class User implements AdvancedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
-
-    /**
-     * @var string
-     * @ORM\Column(name="email", type="string", length=255)
-     *
-     * @Assert\Email(message="message.email.invalid")
-     * @Assert\NotBlank(message="message.required")
-     */
-    private $email;
-
-    /**
-     * @var string
-     * @ORM\Column(name="pass", type="string")
-     *
-     * @Assert\NotBlank(message="message.required")
-     */
-    private $pass;
+    protected $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, nullable=true)
      *
      * @Assert\NotBlank(message="message.required")
      * @Assert\Regex(
@@ -57,12 +42,12 @@ class User implements AdvancedUserInterface
      *     message="message.regex.string"
      * )
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="lastName", type="string", length=255)
+     * @ORM\Column(name="lastName", type="string", length=255, nullable=true)
      *
      * @Assert\NotBlank(message="message.required")
      * @Assert\Regex(
@@ -70,20 +55,14 @@ class User implements AdvancedUserInterface
      *     message="message.regex.string"
      * )
      */
-    private $lastName;
-
-    /**
-     * @var boolean
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $admin;
+    protected $lastName;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="active", type="boolean")
+     * @ORM\Column(name="active", type="boolean", nullable=true)
      */
-    private $active;
+    protected $active;
 
     /**
      * @var Alias[]
@@ -91,13 +70,14 @@ class User implements AdvancedUserInterface
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Alias", mappedBy="user")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $alias;
+    protected $alias;
 
     /**
      * Constructor
      */
     public function __construct()
     {
+        parent::__construct();
         $this->alias = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -109,54 +89,6 @@ class User implements AdvancedUserInterface
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return User
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set pass
-     *
-     * @param string $pass
-     *
-     * @return User
-     */
-    public function setPass($pass)
-    {
-        $this->pass = $pass;
-
-        return $this;
-    }
-
-    /**
-     * Get pass
-     *
-     * @return string
-     */
-    public function getPass()
-    {
-        return $this->pass;
     }
 
     /**
@@ -232,13 +164,13 @@ class User implements AdvancedUserInterface
     }
 
     /**
-     * Get admin
+     * Get alias
      *
-     * @return boolean
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getAdmin()
+    public function getAlias()
     {
-        return $this->admin;
+        return $this->alias;
     }
 
     /**
@@ -266,173 +198,11 @@ class User implements AdvancedUserInterface
     }
 
     /**
-     * Get alias
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getAlias()
-    {
-        return $this->alias;
-    }
-
-    /**
      * @return string
      */
     public function __toString()
     {
         return $this->getName() . ' ' . $this->getLastName();
-    }
-
-    /**
-     * Set admin
-     *
-     * @param boolean $admin
-     *
-     * @return User
-     */
-    public function setAdmin($admin)
-    {
-        $this->admin = $admin;
-        return $this;
-    }
-    /**
-     * Get admin
-     *
-     * @return boolean
-     */
-    public function isAdmin()
-    {
-        return $this->admin;
-    }
-
-    /**
-     * Returns the roles granted to the user.
-     *
-     * <code>
-     * public function getRoles()
-     * {
-     *     return array('ROLE_USER');
-     * }
-     * </code>
-     *
-     * Alternatively, the roles might be stored on a ``roles`` property,
-     * and populated in any number of different ways when the user object
-     * is created.
-     *
-     * @return (Role|string)[] The user roles
-     */
-    public function getRoles()
-    {
-        $roles = ['ROLE_USER'];
-
-        if ($this->isAdmin()) {
-            $roles[] = 'ROLE_ADMIN';
-        }
-
-        return $roles;
-    }
-
-    /**
-     * Returns the password used to authenticate the user.
-     *
-     * This should be the encoded password. On authentication, a plain-text
-     * password will be salted, encoded, and then compared to this value.
-     *
-     * @return string The password
-     */
-    public function getPassword()
-    {
-        return $this->getPass();
-    }
-
-    /**
-     * Returns the salt that was originally used to encode the password.
-     *
-     * This can return null if the password was not encoded using a salt.
-     *
-     * @return string|null The salt
-     */
-    public function getSalt()
-    {
-        return null;
-    }
-    /**
-     * Returns the username used to authenticate the user.
-     *
-     * @return string The username
-     */
-    public function getUsername()
-    {
-        return $this->getEmail();
-    }
-    /**
-     * Removes sensitive data from the user.
-     *
-     * This is important if, at any given point, sensitive information like
-     * the plain-text password is stored on this object.
-     */
-    public function eraseCredentials()
-    {
-    }
-
-    /**
-     * Checks whether the user's account has expired.
-     *
-     * Internally, if this method returns false, the authentication system
-     * will throw an AccountExpiredException and prevent login.
-     *
-     * @return bool true if the user's account is non expired, false otherwise
-     *
-     * @see AccountExpiredException
-     */
-    public function isAccountNonExpired()
-    {
-        return true;
-    }
-
-    /**
-     * Checks whether the user is locked.
-     *
-     * Internally, if this method returns false, the authentication system
-     * will throw a LockedException and prevent login.
-     *
-     * @return bool true if the user is not locked, false otherwise
-     *
-     * @see LockedException
-     */
-    public function isAccountNonLocked()
-    {
-        return true;
-    }
-
-    /**
-     * Checks whether the user's credentials (password) has expired.
-     *
-     * Internally, if this method returns false, the authentication system
-     * will throw a CredentialsExpiredException and prevent login.
-     *
-     * @return bool true if the user's credentials are non expired, false otherwise
-     *
-     * @see CredentialsExpiredException
-     */
-    public function isCredentialsNonExpired()
-    {
-        return true;
-    }
-
-    /**
-     * Checks whether the user is enabled.
-     *
-     * Internally, if this method returns false, the authentication system
-     * will throw a DisabledException and prevent login.
-     *
-     * @return bool true if the user is enabled, false otherwise
-     *
-     * @see DisabledException
-     */
-    public function isEnabled()
-    {
-        return $this->getActive();
     }
 
 }

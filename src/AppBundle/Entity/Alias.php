@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use UserBundle\Entity\User;
 
 /**
  * Alias
@@ -56,7 +57,7 @@ class Alias
 
     /**
      * @var User
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="alias")
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="alias")
      * @ORM\JoinColumn(nullable=true)
      */
     private $user;

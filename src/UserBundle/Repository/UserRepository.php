@@ -19,7 +19,7 @@ class UserRepository extends EntityRepository
 
         $query = $em->createQueryBuilder()
             ->select('u')
-            ->from('AppBundle:User', 'u')
+            ->from('UserBundle:User', 'u')
             ->where('u.active = :active')
             ->setParameter('active', true)
             ->getQuery()
