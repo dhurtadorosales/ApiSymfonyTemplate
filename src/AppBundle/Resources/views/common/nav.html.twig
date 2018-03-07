@@ -70,7 +70,7 @@
                             <li class="divider"></li>
 
                             <li>
-                                <a href="{{ path('logout') }}">
+                                <a href="{{ path('fos_user_security_logout') }}">
                                     <i class="fa fa-sign-out"></i> {{ 'layout.page.logout'|trans }}
                                 </a>
                             </li>
@@ -78,13 +78,13 @@
                     </li>
                 {% else %}
                     <li>
-                        <a href="{{ path('user_new') }}">
+                        <a href="{{ path('fos_user_registration_register') }}">
                             <i class="fa fa-user-plus"></i> {{ 'layout.page.register'|trans }}
                         </a>
                     </li>
 
                     <li>
-                        <a href="{{ path('login') }}">
+                        <a href="{{ path('fos_user_security_login') }}">
                             <i class="fa fa-sign-in"></i> {{ 'layout.page.access'|trans }}
                         </a>
                     </li>

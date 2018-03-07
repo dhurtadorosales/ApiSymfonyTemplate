@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Class AliasController
  *
- * @Route("/{_locale}/alias", requirements={"_locale"="%app.locales%"})
+ * @Route("/alias")
  *
  * @package AppBundle\Controller
  */

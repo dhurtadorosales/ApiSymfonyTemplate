@@ -3,16 +3,10 @@
 namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Alias;
-use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\FixtureInterface;
-use FOS\UserBundle\Model\UserManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use UserBundle\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class LoadData extends Fixture
 {

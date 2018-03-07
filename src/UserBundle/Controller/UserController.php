@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Class UserController
  *
- * @Route("/{_locale}/user", requirements={"_locale"="%app.locales%"})
+ * @Route("/user")
  *
  * @package AppBundle\Controller
  */
@@ -139,7 +139,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/login", name="login")
+     * @Route("/login2", name="login2")
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -154,8 +154,8 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/check", name="check")
-     * @Route("/logout", name="logout")
+     * @Route("/check2", name="check2")
+     * @Route("/logout2", name="logout2")
      */
     public function checkAction()
     {
