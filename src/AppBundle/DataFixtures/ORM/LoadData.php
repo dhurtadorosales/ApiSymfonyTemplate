@@ -3,6 +3,11 @@
 namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Alias;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use FOS\UserBundle\Model\UserManager;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use UserBundle\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -11,20 +16,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class LoadData extends Fixture
 {
-    /**
-     * @var ContainerInterface
-     */
+    /** @var ContainerInterface $container */
     public $container;
-    private $encoder;
-
-    /**
-     * LoadData constructor.
-     * @param UserPasswordEncoderInterface $encoder
-     */
-    public function __construct(UserPasswordEncoderInterface $encoder)
-    {
-        $this->encoder = $encoder;
-    }
 
     /**
      * Sets the container.
@@ -42,25 +35,25 @@ class LoadData extends Fixture
     public function load(ObjectManager $manager)
     {
         $usersData = [
-            ['admin@admin.com', 'admin', 'Admin', 'Admin', true, true],
-            ['clark@kent.com', 'clark', 'Clark', 'Kent', false, true],
-            ['bruce@wayne.com', 'bruce', 'Bruce', 'Wayne', false, true],
-            ['diana@prince.com', 'diana', 'Diana', 'Prince', false, true]
+            ['Admin', 'Admin', 'admin', 'admin@admin.com', 'admin', true, ['ROLE_ADMIN']],
+            ['Clark', 'Kent', 'clark', 'clark@kent.com', 'clark', true, ['ROLE_USER']],
+            ['Bruce', 'Wayne', 'bruce', 'bruce@wayne.com', 'bruce', true, ['ROLE_USER']],
+            ['Diana', 'Prince', 'diana', 'diana@prince.com', 'diana', true, ['ROLE_USER']],
+            ['Steve', 'Rogers', 'steve', 'steve@rogers.com', 'steve', false, ['ROLE_USER']]
         ];
 
         $users = [];
 
         foreach ($usersData as $item) {
             $user = new User();
-            $password = $this->encoder->encodePassword($user, $item[1]);
-
             $user
-                ->setEmail($item[0])
-                ->setPass($password)
-                ->setName($item[2])
-                ->setLastName($item[3])
-                ->setAdmin($item[4])
-                ->setActive($item[5]);
+                ->setName($item[0])
+                ->setLastName($item[1])
+                ->setUsername($item[2])
+                ->setEmail($item[3])
+                ->setPlainPassword($item[4])
+                ->setEnabled($item[5])
+                ->setRoles($item[6]);
 
             $manager->persist($user);
             array_push($users, $user);
@@ -70,7 +63,8 @@ class LoadData extends Fixture
             ['Superman', 'Metrópolis', $users[1]],
             ['Kal-El', 'Krypton', $users[1]],
             ['Batman', 'Gotham', $users[2]],
-            ['Wonder Woman', 'Themyscira', $users[3]]
+            ['Wonder Woman', 'Themyscira', $users[3]],
+            ['Captain America', 'New York', $users[4]]
         ];
 
         $aliases = [];

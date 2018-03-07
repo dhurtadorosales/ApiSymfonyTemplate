@@ -47,6 +47,8 @@ class AliasApiController extends FOSRestController
      * @param Alias|null $alias
      *
      * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function formAliasAction(Request $request, Alias $alias = null)
@@ -87,7 +89,9 @@ class AliasApiController extends FOSRestController
      * @param Alias $alias
      *
      * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\ORMException
      */
     public function deleteAliasAction(Alias $alias)
     {
@@ -107,4 +111,5 @@ class AliasApiController extends FOSRestController
 
         return $helpers->json($data);
     }
+
 }

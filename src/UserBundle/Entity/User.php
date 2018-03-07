@@ -5,6 +5,7 @@ namespace UserBundle\Entity;
 use AppBundle\Entity\Alias;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -56,13 +57,6 @@ class User extends BaseUser
      * )
      */
     protected $lastName;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="active", type="boolean", nullable=true)
-     */
-    protected $active;
 
     /**
      * @var Alias[]
@@ -171,30 +165,6 @@ class User extends BaseUser
     public function getAlias()
     {
         return $this->alias;
-    }
-
-    /**
-     * Set active
-     *
-     * @param boolean $active
-     *
-     * @return User
-     */
-    public function setActive($active)
-    {
-        $this->active = $active;
-
-        return $this;
-    }
-
-    /**
-     * Get active
-     *
-     * @return boolean
-     */
-    public function getActive()
-    {
-        return $this->active;
     }
 
     /**
