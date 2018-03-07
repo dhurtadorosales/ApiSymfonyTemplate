@@ -25,16 +25,16 @@ class AliasController extends Controller
     /**
      * @Route("/all", name="alias_all")
      *
-     * @Security("is_granted('ROLE_ADMIN')")
+     *
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function getAliasAllAction()
-    {
+    {//@Security("is_granted('ROLE_ADMIN')")
         $aliasManager = $this->get(AliasManager::class);
         $alias = $aliasManager->getAliasAll();
 
-        return $this->render('alias/alias.html.twig', [
+        return $this->render('AppBundle:alias:alias.html.twig', [
             'alias' => $alias
         ]);
     }
@@ -53,7 +53,7 @@ class AliasController extends Controller
         $aliasManager = $this->get(AliasManager::class);
         $alias = $aliasManager->getAliasById($user);
 
-        return $this->render('alias/alias.html.twig', [
+        return $this->render('AppBundle:alias:alias.html.twig', [
             'alias' => $alias
         ]);
     }
@@ -69,6 +69,7 @@ class AliasController extends Controller
      * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \Doctrine\ORM\ORMException
      */
     public function formNewAliasAction(Request $request, Alias $alias = null)
     {
@@ -106,7 +107,7 @@ class AliasController extends Controller
             }
         }
 
-        return $this->render('alias/form.html.twig', [
+        return $this->render('AppBundle:alias:form.html.twig', [
                 'alias' => $alias,
                 'form' => $form->createView()
             ]

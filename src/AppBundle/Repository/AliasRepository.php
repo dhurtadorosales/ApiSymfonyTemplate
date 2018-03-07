@@ -36,4 +36,22 @@ class AliasRepository extends EntityRepository
 
         return $query;
     }
+
+    public function getAliasAll()
+    {
+        /** @var EntityManager $em */
+        $em = $this->getEntityManager();
+
+        $query = $em->createQueryBuilder()
+            ->select('a')
+            ->addSelect('u')
+            ->from('AppBundle:Alias', 'a')
+            ->join('a.user', 'u')
+            ->where('u.enabled = :enabled')
+            ->setParameter('enabled', true)
+            ->getQuery()
+            ->getResult();
+
+        return $query;
+    }
 }

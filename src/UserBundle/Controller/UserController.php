@@ -36,7 +36,7 @@ class UserController extends Controller
         $userManager = $this->get(UserManager::class);
         $users = $userManager->getUsers();
 
-        return $this->render('user/users.html.twig', [
+        return $this->render('UserBundle::users.html.twig', [
             'users' => $users
         ]);
     }
@@ -92,7 +92,7 @@ class UserController extends Controller
             }
         }
 
-        return $this->render('user/form.html.twig', [
+        return $this->render('UserBundle::form.html.twig', [
             'user' => $user,
             'form' => $form->createView()
             ]
@@ -147,7 +147,7 @@ class UserController extends Controller
     {
         $helper = $this->get('security.authentication_utils');
 
-        return $this->render('user/login.html.twig', [
+        return $this->render('UserBundle::login.html.twig', [
             'last_user' => $helper->getLastUsername(),
             'error' => $helper->getLastAuthenticationError()
         ]);
@@ -175,7 +175,7 @@ class UserController extends Controller
     {
         $user = $this->getUser();
 
-        return $this->render('user/profile.html.twig', [
+        return $this->render('UserBundle::profile.html.twig', [
             'user' => $user
         ]);
     }
@@ -232,7 +232,7 @@ class UserController extends Controller
             }
         }
 
-        return $this->render('user/change_pass.html.twig', [
+        return $this->render('UserBundle::change_pass.html.twig', [
             'form' => $form->createView()
         ]);
     }

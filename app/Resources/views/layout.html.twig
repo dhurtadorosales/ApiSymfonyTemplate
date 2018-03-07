@@ -4,15 +4,15 @@
 
 {% block body %}
     {% block header %}
-        {% include 'common/nav.html.twig' %}
+        {% include 'AppBundle:common:nav.html.twig' %}
     {% endblock %}
 
-    {% include 'common/flash.html.twig' %}
+    {% include 'AppBundle:common:flash.html.twig' %}
 
     {% block content %}{% endblock %}
 
     {% block footer %}
-        {% include 'common/footer.html.twig' %}
+        {% include 'AppBundle:common:footer.html.twig' %}
     {% endblock %}
 
 {% endblock %}

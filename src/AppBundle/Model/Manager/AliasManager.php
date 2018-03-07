@@ -3,7 +3,7 @@
 namespace AppBundle\Model\Manager;
 
 
-use AppBundle\Entity\User;
+use UserBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 
 class AliasManager
@@ -25,7 +25,7 @@ class AliasManager
     public function getAliasAll()
     {
         return $this->em->getRepository('AppBundle:Alias')
-            ->findAll();
+            ->getAliasAll();
     }
 
     /**
