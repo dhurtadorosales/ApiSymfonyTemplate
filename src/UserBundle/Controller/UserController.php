@@ -167,7 +167,7 @@ class UserController extends Controller
      *
      * @Security("is_granted('ROLE_USER') and user.getId() == id")
      *
-     * @ParamConverter("user", class="AppBundle:User", options={"id" = "id"})
+     * @ParamConverter("user", class="UserBundle:User", options={"id" = "id"})
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -185,7 +185,7 @@ class UserController extends Controller
      *
      * @Security("is_granted('ROLE_USER') and user.getId() == id")
      *
-     * @ParamConverter("user", class="AppBundle:User", options={"id" = "id"})
+     * @ParamConverter("user", class="UserBundle:User", options={"id" = "id"})
      *
      * @param Request $request
      *

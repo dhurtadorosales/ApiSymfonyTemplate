@@ -20,7 +20,7 @@ class UserRepository extends EntityRepository
         $query = $em->createQueryBuilder()
             ->select('u')
             ->from('UserBundle:User', 'u')
-            ->where('u.enabled = :enable')
+            ->where('u.enabled = :enabled')
             ->setParameter('enabled', true)
             ->getQuery()
             ->getResult();
