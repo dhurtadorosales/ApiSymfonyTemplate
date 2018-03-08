@@ -28,9 +28,9 @@ class AliasRepository extends EntityRepository
             ->from('AppBundle:Alias', 'a')
             ->join('a.user', 'u')
             ->where('u = :user')
-            ->andWhere('u.active = :active')
+            ->andWhere('u.enabled = :enabled')
             ->setParameter('user', $user)
-            ->setParameter('active', true)
+            ->setParameter('enabled', true)
             ->getQuery()
             ->getResult();
 

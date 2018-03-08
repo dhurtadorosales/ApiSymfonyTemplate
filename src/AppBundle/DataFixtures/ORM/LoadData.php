@@ -3,6 +3,7 @@
 namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Alias;
+use UserBundle\Entity\Client;
 use UserBundle\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -39,6 +40,9 @@ class LoadData extends Fixture
         $users = [];
 
         foreach ($usersData as $item) {
+            $client = new Client();
+            $client->setAllowedGrantTypes(array('password'));
+
             $user = new User();
             $user
                 ->setName($item[0])
@@ -47,8 +51,12 @@ class LoadData extends Fixture
                 ->setEmail($item[3])
                 ->setPlainPassword($item[4])
                 ->setEnabled($item[5])
-                ->setRoles($item[6]);
+                ->setRoles($item[6])
+                ->setClient($client);
 
+            $client->setUser($user);
+
+            $manager->persist($client);
             $manager->persist($user);
             array_push($users, $user);
         }

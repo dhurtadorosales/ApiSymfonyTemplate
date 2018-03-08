@@ -9,79 +9,52 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
+use UserBundle\Entity\User;
+
 
 /**
  * Class LoginApiController
  *
- * @Route("/api/login", requirements={"_locale"="%app.locales%"})
+ * @Route("/api")
  *
  * @package AppBundle\Controller
  */
 class LoginApiController extends FOSRestController
 {
     /**
-     * @Rest\Post("/", name="api_login")
+     * @Rest\Post("/login", name="api_login")
      *
      * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\Response
+     * @return mixed
      */
     public function loginAction(Request $request)
     {
         $helpers = $this->get(Helpers::class);
-
         $json = $request->get('json', null);
-        $data = [
-            'status' => 'error',
-            'data' => 'send.post.json'
-        ];
+        $params = json_decode($json);
 
-        if ($json != null) {
-            //Convert json to php object
-            $params = json_encode($json);
-            $email = (isset($params->email)) ? $params->email : null;
-            $password = (isset($params->password)) ? $params->password : null;
-            $getToken = (isset($params->getToken)) ? $params->getToken : null;
+        $userName = $params->username;
+        $password = $params->password;
 
-            $emailConstraint = new Assert\Email();
-            $emailConstraint->message = 'message.email.invalid';
-            $validateEmail = $this->get('validator')->validate($email, $emailConstraint);
+        $user = $this->getDoctrine()
+            ->getRepository('UserBundle:User')
+            ->findOneBy([
+                'username' => $userName,
+                //'password' => $password
+            ]);
 
-            //Code password
-            $pwd = hash('sha512', $password);
+        $client = $user->getClient();
 
-            /** @var EntityManager $em */
-            $em = $this->getDoctrine()->getManager();
-
-            if ($email != null && count($validateEmail) == 0 && $password != null) {
-                $jwtAuth = $this->get(JwtAuth::class);
-
-                if ($getToken == null || $getToken == false) {
-                    //Code data
-                    $signUp = $jwtAuth->signUp($email, $pwd);
-                }
-                else {
-                    //Encode data
-                    $signUp = $jwtAuth->signUp($email, $pwd, true);
-                }
-
-                //return $this->json($signUp);
-
-                $data = [
-                    'status' => 'status.success',
-                    'data' => 'login.correct',
-                    'signup' => $signUp
-                ];
-
-            } else {
-                $data = [
-                    'status' => 'error',
-                    'data' => 'login.incorrect'
-                ];
-            }
-        }
-
-        return $helpers->json($data);
+        return $this->redirectToRoute('fos_oauth_server_token', [
+            'grant_type' => 'password',
+            'client_id' => $client->getId() . '_' . $client->getRandomId(),
+            'client_secret' => $client->getSecret(),
+            'username' => $user->getUsername(),
+            'password' => $password
+        ]);
     }
+
 }

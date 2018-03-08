@@ -5,7 +5,7 @@ security:
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
         fos_userbundle:
-            id: fos_user.user_provider.username_email
+            id: fos_user.user_provider.username
 
     encoders:
         #@todo use bcrypt (need php 5.5)
@@ -26,7 +26,7 @@ security:
             security: false
 
         main:
-            #pattern: ^/%locale%
+            pattern: ^/
             # activate different ways to authenticate
 
             # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
@@ -43,10 +43,14 @@ security:
             anonymous: true
 
         #api:
-            #pattern: ^/
-            #fos_oauth: true
-            #stateless: true
-            #anonymous: true
+        #    pattern: ^/api
+        #    context: api
+        #    form_login:
+        #       provider: fos_userbundle
+        #        login_path: fos_user_security_login
+        #        check_path: api_login_check
+        #    logout: true
+        #    anonymous: true
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }

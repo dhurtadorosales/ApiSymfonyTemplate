@@ -19,8 +19,37 @@ class Client extends BaseClient
      */
     protected $id;
 
+    /**
+     * @var User
+     *
+     * @ORM\OneToOne(targetEntity="UserBundle\Entity\User", inversedBy="client")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    protected $user;
+
+    /**
+     * Client constructor.
+     */
     public function __construct()
     {
         parent::__construct();
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     * @return Client
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+        return $this;
     }
 }

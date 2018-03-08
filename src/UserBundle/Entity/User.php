@@ -67,6 +67,14 @@ class User extends BaseUser
     protected $alias;
 
     /**
+     * @var Client
+     *
+     * @ORM\OneToOne(targetEntity="UserBundle\Entity\Client", mappedBy="user")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    protected $client;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -165,6 +173,29 @@ class User extends BaseUser
     public function getAlias()
     {
         return $this->alias;
+    }
+
+    /**
+     * Get client
+     *
+     * @return Client
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    /**
+     * Set client
+     *
+     * @param Client $client
+     *
+     * @return User
+     */
+    public function setClient($client)
+    {
+        $this->client = $client;
+        return $this;
     }
 
     /**

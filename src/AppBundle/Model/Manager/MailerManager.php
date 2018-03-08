@@ -3,7 +3,7 @@
 namespace AppBundle\Model\Manager;
 
 
-use AppBundle\Entity\User;
+use UserBundle\Entity\User;
 use Monolog\Handler\HandlerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
