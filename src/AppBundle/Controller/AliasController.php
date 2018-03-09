@@ -25,14 +25,14 @@ class AliasController extends Controller
     /**
      * @Route("/all", name="alias_all")
      *
-     *
+     * @Security("is_granted('ROLE_ADMIN')")
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function getAliasAllAction()
-    {//@Security("is_granted('ROLE_ADMIN')")
+    {
         $aliasManager = $this->get(AliasManager::class);
-        $alias = $aliasManager->getAliasAll();
+        $alias = $aliasManager->findAliasAll();
 
         return $this->render('AppBundle:alias:alias.html.twig', [
             'alias' => $alias
@@ -51,7 +51,7 @@ class AliasController extends Controller
     public function getAliasByUserAction(User $user)
     {
         $aliasManager = $this->get(AliasManager::class);
-        $alias = $aliasManager->getAliasById($user);
+        $alias = $aliasManager->findAliasById($user);
 
         return $this->render('AppBundle:alias:alias.html.twig', [
             'alias' => $alias

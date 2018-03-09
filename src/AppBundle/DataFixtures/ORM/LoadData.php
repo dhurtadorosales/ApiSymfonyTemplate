@@ -54,8 +54,6 @@ class LoadData extends Fixture
                 ->setRoles($item[6])
                 ->setClient($client);
 
-            $client->setUser($user);
-
             $manager->persist($client);
             $manager->persist($user);
             array_push($users, $user);

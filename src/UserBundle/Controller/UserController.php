@@ -4,7 +4,6 @@ namespace UserBundle\Controller;
 
 use UserBundle\Entity\User;
 use UserBundle\Form\Type\PasswordChangeType;
-use UserBundle\Form\Type\ProfileType;
 use UserBundle\Form\Type\UserType;
 use AppBundle\Model\Manager\MailerManager;
 use UserBundle\Model\Manager\UserManager;
@@ -34,7 +33,7 @@ class UserController extends Controller
     public function getUsersAction()
     {
         $userManager = $this->get(UserManager::class);
-        $users = $userManager->getUsers();
+        $users = $userManager->findActiveUsers();
 
         return $this->render('UserBundle::users.html.twig', [
             'users' => $users
@@ -64,8 +63,7 @@ class UserController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $user
-                    ->setActive(true)
-                    ->setAdmin(false);
+                    ->setEnabled(true);
 
                 $encoder = $this->get('security.password_encoder');
                 $pass = $encoder->encodePassword($user, $form->get('pass')->getData());
@@ -114,9 +112,9 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         try {
-            if (!$user->isAdmin()) {
+            if (!$user->hasRole(['ROLE_ADMIN'])) {
                 $user
-                    ->setActive(false);
+                    ->setEnabled(false);
                 $em->flush();
 
                 $this->addFlash(
@@ -136,30 +134,6 @@ class UserController extends Controller
             );
         }
         return $this->redirectToRoute('users_all');
-    }
-
-    /**
-     * @Route("/login2", name="login2")
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function loginAction()
-    {
-        $helper = $this->get('security.authentication_utils');
-
-        return $this->render('UserBundle::login.html.twig', [
-            'last_user' => $helper->getLastUsername(),
-            'error' => $helper->getLastAuthenticationError()
-        ]);
-    }
-
-    /**
-     * @Route("/check2", name="check2")
-     * @Route("/logout2", name="logout2")
-     */
-    public function checkAction()
-    {
-
     }
 
     /**
@@ -212,7 +186,7 @@ class UserController extends Controller
                     $encoder = $this->get('security.password_encoder');
 
                     $pass = $encoder->encodePassword($user, $passForm);
-                    $user->setPass($pass);
+                    $user->setPassword($pass);
                 }
 
                 $em->flush();

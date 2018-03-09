@@ -22,19 +22,19 @@ class AliasManager
     /**
      * @return mixed
      */
-    public function getAliasAll()
+    public function findAliasAll()
     {
         return $this->em->getRepository('AppBundle:Alias')
-            ->getAliasAll();
+            ->findAliasAll();
     }
 
     /**
      * @param User $user
      * @return null|object
      */
-    public function getAliasById(User $user)
+    public function findAliasByUser(User $user)
     {
         return $this->em->getRepository('AppBundle:Alias')
-            ->getAliasByUser($user);
+            ->findAliasByUser($user);
     }
 }

@@ -4,6 +4,8 @@ namespace UserBundle\Repository;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use UserBundle\Entity\User;
+
 /**
  * UserRepository
  *
@@ -12,7 +14,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserRepository extends EntityRepository
 {
-    public function getActiveUsers()
+    /**
+     * @return mixed
+     */
+    public function findActiveUsers()
     {
         /** @var EntityManager $em */
         $em = $this->getEntityManager();
@@ -21,6 +26,30 @@ class UserRepository extends EntityRepository
             ->select('u')
             ->from('UserBundle:User', 'u')
             ->where('u.enabled = :enabled')
+            ->setParameter('enabled', true)
+            ->getQuery()
+            ->getResult();
+
+        return $query;
+    }
+
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    public function findUserByIdAndToken(User $user, $token)
+    {
+        /** @var EntityManager $em */
+        $em = $this->getEntityManager();
+
+        $query = $em->createQueryBuilder()
+            ->select('u')
+            ->addSelect('t')
+            ->from('UserBundle:User', 'u')
+            ->join('UserBundle:AccessToken', 't')
+            ->where('u.id = :id')
+            ->andWhere('t.user = :')
+            ->andWhere('u.enabled = :enabled')
             ->setParameter('enabled', true)
             ->getQuery()
             ->getResult();

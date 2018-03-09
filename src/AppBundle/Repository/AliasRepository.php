@@ -17,7 +17,7 @@ class AliasRepository extends EntityRepository
      * @param User $user
      * @return array
      */
-    public function getAliasByUser(User $user)
+    public function findAliasByUser(User $user)
     {
         /** @var EntityManager $em */
         $em = $this->getEntityManager();
@@ -37,7 +37,10 @@ class AliasRepository extends EntityRepository
         return $query;
     }
 
-    public function getAliasAll()
+    /**
+     * @return mixed
+     */
+    public function findAliasAll()
     {
         /** @var EntityManager $em */
         $em = $this->getEntityManager();

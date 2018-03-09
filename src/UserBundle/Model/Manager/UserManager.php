@@ -20,9 +20,10 @@ class UserManager
     /**
      * @return mixed
      */
-    public function getUsers()
+    public function findActiveUsers()
     {
         return $this->em->getRepository('UserBundle:User')
-            ->getActiveUsers();
+            ->findActiveUsers();
     }
+
 }

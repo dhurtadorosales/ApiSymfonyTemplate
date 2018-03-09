@@ -1,6 +1,6 @@
 <?php
 
-namespace UserBundle\Controller;
+namespace UserBundle\Controller\Api;
 
 use AppBundle\Model\Manager\Helpers;
 use UserBundle\Model\Manager\UserManager;

@@ -1,17 +1,11 @@
 <?php
 
-namespace UserBundle\Controller;
+namespace UserBundle\Controller\Api;
 
-use AppBundle\Model\Manager\Helpers;
-use AppBundle\Model\Manager\JwtAuth;
-use Doctrine\ORM\EntityManager;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Exception\BadCredentialsException;
-use UserBundle\Entity\User;
 
 
 /**
@@ -32,7 +26,6 @@ class LoginApiController extends FOSRestController
      */
     public function loginAction(Request $request)
     {
-        $helpers = $this->get(Helpers::class);
         $json = $request->get('json', null);
         $params = json_decode($json);
 
@@ -43,7 +36,6 @@ class LoginApiController extends FOSRestController
             ->getRepository('UserBundle:User')
             ->findOneBy([
                 'username' => $userName,
-                //'password' => $password
             ]);
 
         $client = $user->getClient();

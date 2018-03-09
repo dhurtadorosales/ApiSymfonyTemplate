@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table("oauth2_access_tokens")
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="UserBundle\Repository\AccessTokenRepository")
  */
 class AccessToken extends BaseAccessToken
 {

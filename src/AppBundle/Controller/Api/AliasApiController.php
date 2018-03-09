@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\Alias;
 use AppBundle\Model\Manager\AliasManager;
@@ -11,6 +11,8 @@ use FOS\RestBundle\Controller\FOSRestController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use UserBundle\Entity\User;
+use UserBundle\Model\Manager\AccessTokenManager;
 
 /**
  * Class AliasApiController
@@ -28,13 +30,52 @@ class AliasApiController extends FOSRestController
      */
     public function getAliasAllAction()
     {
+        //FALTA AUTORIZACIÓN
+
+
         $aliasManager = $this->get(AliasManager::class);
-        $data = $aliasManager->getAliasAll();
+        $data = $aliasManager->findAliasAll();
 
         $helpers = $this->get(Helpers::class);
         $alias = $helpers->json($data);
 
         return $alias;
+    }
+
+    /**
+     * @Rest\Post("/{id}", name="api_alias_my")
+     *
+     * @param Request $request
+     * @param User $user
+     *
+     * @return array
+     *
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getAliasByUserAction(Request $request, User $user)
+    {
+        $authorization = $request->get('authorization', null);
+
+        $accessTokenManager = $this->get(AccessTokenManager::class);
+        $checkToken = $accessTokenManager->checkToken($authorization, $user);
+
+        if ($checkToken) {
+            $aliasManager = $this->get(AliasManager::class);
+            $alias = $aliasManager->findAliasByUser($user);
+
+            $helpers = $this->get(Helpers::class);
+            $data = $helpers->json($alias);
+
+        } else {
+            $data = [
+                'status' => 'error',
+                'code' => 400,
+                'data' => 'message.error.not_auth'
+            ];
+        }
+
+        return $data;
     }
 
     /**
@@ -53,6 +94,9 @@ class AliasApiController extends FOSRestController
      */
     public function formAliasAction(Request $request, Alias $alias = null)
     {
+
+        //FALTA AUTORIZACIÓN
+
         $helpers = $this->get(Helpers::class);
         $json = $request->get('json', null);
         $params = json_decode($json);
@@ -95,6 +139,10 @@ class AliasApiController extends FOSRestController
      */
     public function deleteAliasAction(Alias $alias)
     {
+
+        //FALTA AUTORIZACIÓN
+
+
         $helpers = $this->get(Helpers::class);
 
         /** @var EntityManager $em */

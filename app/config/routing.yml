@@ -7,7 +7,7 @@ app:
     resource: '@AppBundle/Controller/'
     type: annotation
 
-mvms_api:
+api:
     type: rest
     prefix: /api
     resource: '@AppBundle/Resources/config/api-routing.yml'
