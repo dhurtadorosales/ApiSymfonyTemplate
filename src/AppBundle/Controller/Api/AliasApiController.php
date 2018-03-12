@@ -17,7 +17,7 @@ use UserBundle\Model\Manager\AccessTokenManager;
 /**
  * Class AliasApiController
  *
- * @Route("/api/alias", requirements={"_locale"="%app.locales%"})
+ * @Route("/api/alias")
  *
  * @package AppBundle\Controller
  */
